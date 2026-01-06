@@ -21,34 +21,41 @@ namespace Sensordevice
         public static List<string> listTemp = new List<string>();
         public static List<string> listHum = new List<string>();
         public static List<string> listDate = new List<string>();
-        string fileName, newStartDate, newEndDate, passwordString, currentDate;
+        string newStartDate, newEndDate, passwordString, currentDate;
         DateTime startDate, endDate;
-        int countItems, counterItems, countSelected, counterCheck;
-        bool checkFile = true, checkOnce = false;
+        int countItems, counterItems;
+        bool checkFile = true;
         string[] inputPass = File.ReadAllLines("input.txt");
 
         private void rowDeletions(int number)
         {
 
             int counterItems = 0;
-            int countSelected = 1;
+            int countSelected = 0;
             int counterCheck = 0;
+            int itemCheck;
 
             foreach (ListViewItem deleteValue in listViewData.Items)
             {
-                if (countSelected == number)
+                if (countSelected < number)
                 {
-                    this.listViewData.Items.RemoveAt(counterItems);
-                    countSelected = 0;
+                    itemCheck = listViewData.Items.Count;
+                    if (counterItems < itemCheck)
+                    {
+                        this.listViewData.Items.RemoveAt(counterItems);
+                    }
                 }
                 else
                 {
-                    counterItems++;
+                    countSelected = 0;
+                    counterCheck++;
+                    counterItems = counterCheck;
+                    listViewData.Update();
                 }
+                counterItems++;
                 countSelected++;
-                counterCheck++;
             }
-            toolStripStatusLabelRows.Text = "Numbers of rows: " + counterItems.ToString();
+            toolStripStatusLabelRows.Text = "Numbers of rows: " + listViewData.Items.Count.ToString();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -73,7 +80,7 @@ namespace Sensordevice
                     {
                         this.listViewData.Items.Remove(deleteValue);
                     }
-                    else 
+                    else
                     {
                         counterItems++;
                     }
@@ -267,7 +274,7 @@ namespace Sensordevice
         private void listViewData_SelectedIndexChanged(object sender, EventArgs e)
         {
             deleteRowsToolStripMenuItem.Enabled = listViewData.SelectedItems.Count > 0;
-          //  deleteRows2ToolStripMenuItem.Enabled = listViewData.SelectedItems.Count > 6;
+            //  deleteRows2ToolStripMenuItem.Enabled = listViewData.SelectedItems.Count > 6;
 
             if (listViewData.Items.Count < 0)
             {
@@ -318,103 +325,6 @@ namespace Sensordevice
             mediumToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = true;
             listViewData.Font = new System.Drawing.Font("Segoe UI", 22f);
-        }
-
-
-        private void clearDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show("Are you sure to empty the sensorlog table", "Ken's SensorDevice", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-                try
-                {
-                    MySqlConnection conn = new MySqlConnection(connString);
-                    conn.Open();
-                    checkString = "delete from sensorlog";
-                    MySqlCommand command = new MySqlCommand(checkString, conn);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    conn.Close();
-                    listViewData.Clear();
-                }
-                catch (Exception i)
-                {
-                    MessageBox.Show(i.Message);
-                }
-            }
-        }
-
-        private void backupDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string filename = "";
-            SaveFileDialog saveContent = new SaveFileDialog();
-
-            saveContent.Title = "Backup";
-            saveContent.Filter = "MysSQL Backup File (.sql) | *.sql";
-            try
-            {
-                if (saveContent.ShowDialog() == DialogResult.OK)
-                {
-                    filename = saveContent.FileName.ToString();
-                    if (filename != "")
-                    {
-                        using (MySqlConnection conn = new MySqlConnection(connString))
-                        {
-                            using (MySqlCommand cmd = new MySqlCommand())
-                            {
-                                using (MySqlBackup mb = new MySqlBackup(cmd))
-                                {
-                                    cmd.Connection = conn;
-                                    conn.Open();
-                                    mb.ExportToFile(filename);
-                                    conn.Close();
-                                }
-                            }
-                        }
-                        MessageBox.Show("File " + filename + " is susccessfully backuped!");
-                    }
-                }
-            }
-            catch (Exception i)
-            {
-                MessageBox.Show(i.Message);
-            }
-        }
-
-        private void restoreDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string fileName = "";
-            OpenFileDialog openContent = new OpenFileDialog();
-
-            openContent.Title = "Restore";
-            openContent.Filter = "MysSQL Backup File (.sql) | *.sql";
-
-            try
-            {
-                if (openContent.ShowDialog() == DialogResult.OK)
-                {
-                    fileName = openContent.FileName.ToString();
-                    {
-                        using (MySqlConnection conn = new MySqlConnection(connString))
-                        {
-                            using (MySqlCommand cmd = new MySqlCommand())
-                            {
-                                using (MySqlBackup mb = new MySqlBackup(cmd))
-                                {
-                                    cmd.Connection = conn;
-                                    conn.Open();
-                                    mb.ImportFromFile(fileName);
-                                    conn.Close();
-                                }
-                            }
-                        }
-                        MessageBox.Show("File " + fileName + " is susccessfully restored!");
-                    }
-                }
-            }
-            catch (Exception i)
-            {
-                MessageBox.Show(i.Message);
-            }
         }
 
         private void dateTimePickerStartDate_Enter(object sender, EventArgs e)
@@ -479,32 +389,40 @@ namespace Sensordevice
             string showStartDate, showEndDate;
             int number;
 
+
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
-            checkString = "select datecreated from sensorlog order by datecreated asc limit 1;";
+            checkString = "select count(*) as 'number' from sensorlog;";
             MySqlCommand command = new MySqlCommand(checkString, conn);
             MySqlDataReader reader = command.ExecuteReader();
             reader.Read();
-            showStartDate = reader.GetDateTime("datecreated").ToString("dd.MM.yyyy HH:mm");
+            number = reader.GetInt32("number");
             conn.Close();
 
-            conn.Open();
-            checkString = "select datecreated from sensorlog order by datecreated desc limit 1;";
-            MySqlCommand command2 = new MySqlCommand(checkString, conn);
-            MySqlDataReader reader2 = command2.ExecuteReader();
-            reader2.Read();
-            showEndDate = reader2.GetDateTime("datecreated").ToString("dd.MM.yyyy HH:mm");
-            conn.Close();
+            if (number > 0)
+            {
+                conn.Open();
+                checkString = "select datecreated from sensorlog order by datecreated asc limit 1;";
+                MySqlCommand command2 = new MySqlCommand(checkString, conn);
+                MySqlDataReader reader2 = command2.ExecuteReader();
+                reader2.Read();
+                showStartDate = reader2.GetDateTime("datecreated").ToString("dd.MM.yyyy HH:mm");
+                conn.Close();
 
-            conn.Open();
-            checkString = "select count(*) as 'number' from sensorlog;";
-            MySqlCommand command3 = new MySqlCommand(checkString, conn);
-            MySqlDataReader reader3 = command3.ExecuteReader();
-            reader3.Read();
-            number = reader3.GetInt32("number");
-            conn.Close();
+                conn.Open();
+                checkString = "select datecreated from sensorlog order by datecreated desc limit 1;";
+                MySqlCommand command3 = new MySqlCommand(checkString, conn);
+                MySqlDataReader reader3 = command3.ExecuteReader();
+                reader3.Read();
+                showEndDate = reader3.GetDateTime("datecreated").ToString("dd.MM.yyyy HH:mm");
+                conn.Close();
+                MessageBox.Show("Number of rows: " + number.ToStrin            }
+            else
+            {
+                MessageBox.Show("Table sensorlog is empty.", "Ken's Sensor Device", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
-            MessageBox.Show("Number of rows: " + number.ToString() + " \n First entry: " + showStartDate + "\n Last entry: " + showEndDate, "Ken's Sensor Device", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
         private void deleteRowsNth2_Click(object sender, EventArgs e)
@@ -525,6 +443,108 @@ namespace Sensordevice
         private void deleteRowsNth5_Click(object sender, EventArgs e)
         {
             rowDeletions(5);
+        }
+
+        private void restoreDatabaseToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            string fileName = "";
+            OpenFileDialog openContent = new OpenFileDialog();
+
+            openContent.Title = "Restore";
+            openContent.Filter = "MysSQL Backup File (.sql) | *.sql";
+
+            try
+            {
+                if (openContent.ShowDialog() == DialogResult.OK)
+                {
+                    fileName = openContent.FileName.ToString();
+                    {
+                        using (MySqlConnection conn = new MySqlConnection(connString))
+                        {
+                            using (MySqlCommand cmd = new MySqlCommand())
+                            {
+                                using (MySqlBackup mb = new MySqlBackup(cmd))
+                                {
+                                    cmd.Connection = conn;
+                                    conn.Open();
+                                    mb.ImportFromFile(fileName);
+                                    conn.Close();
+                                }
+                            }
+                        }
+                        MessageBox.Show("File " + fileName + " is susccessfully restored!");
+                    }
+                }
+            }
+            catch (Exception i)
+            {
+                MessageBox.Show(i.Message);
+            }
+        }
+
+        private void backupDatabaseToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            string filename = "";
+            SaveFileDialog saveContent = new SaveFileDialog();
+
+            saveContent.Title = "Backup";
+            saveContent.Filter = "MysSQL Backup File (.sql) | *.sql";
+            try
+            {
+                if (saveContent.ShowDialog() == DialogResult.OK)
+                {
+                    filename = saveContent.FileName.ToString();
+                    if (filename != "")
+                    {
+                        using (MySqlConnection conn = new MySqlConnection(connString))
+                        {
+                            using (MySqlCommand cmd = new MySqlCommand())
+                            {
+                                using (MySqlBackup mb = new MySqlBackup(cmd))
+                                {
+                                    cmd.Connection = conn;
+                                    conn.Open();
+                                    mb.ExportToFile(filename);
+                                    conn.Close();
+                                }
+                            }
+                        }
+                        MessageBox.Show("File " + filename + " is susccessfully backuped!");
+                    }
+                }
+            }
+            catch (Exception i)
+            {
+                MessageBox.Show(i.Message);
+            }
+        }
+
+        private void clearDatabaseToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure to empty the sensorlog table", "Ken's SensorDevice", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                try
+                {
+                    MySqlConnection conn = new MySqlConnection(connString);
+                    conn.Open();
+                    checkString = "delete from sensorlog";
+                    MySqlCommand command = new MySqlCommand(checkString, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    conn.Close();
+                    listViewData.Clear();
+                    deleteRowsToolStripMenuItem.Enabled = false;
+                    deleteRows2ToolStripMenuItem.Enabled = false;
+                    clearDataToolStripMenuItem.Enabled = true;
+                    saveToolStripMenuItem.Enabled = false;
+                    graphToolStripMenuItem.Enabled = false;
+                   
+                }
+                catch (Exception i)
+                {
+                    MessageBox.Show(i.Message);
+                }
+            }
         }
     }
 }

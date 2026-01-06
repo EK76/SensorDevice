@@ -41,6 +41,11 @@
             deleteRowsNth4 = new ToolStripMenuItem();
             deleteRowsNth5 = new ToolStripMenuItem();
             clearDataToolStripMenuItem = new ToolStripMenuItem();
+            toolsToolStripMenuItem = new ToolStripMenuItem();
+            restoreDatabaseToolStripMenuItem = new ToolStripMenuItem();
+            backupDatabaseToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
+            clearDatabaseToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem = new ToolStripMenuItem();
             graphToolStripMenuItem = new ToolStripMenuItem();
             fontSizeToolStripMenuItem = new ToolStripMenuItem();
@@ -48,11 +53,6 @@
             mediumToolStripMenuItem = new ToolStripMenuItem();
             largeToolStripMenuItem = new ToolStripMenuItem();
             tableInfoToolStripMenuItem = new ToolStripMenuItem();
-            toolsToolStripMenuItem = new ToolStripMenuItem();
-            restoreDatabaseToolStripMenuItem = new ToolStripMenuItem();
-            backupDatabaseToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparator1 = new ToolStripSeparator();
-            clearDatabaseToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             listViewData = new ListView();
@@ -77,7 +77,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem, toolsToolStripMenuItem, helpToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, toolsToolStripMenuItem, viewToolStripMenuItem, helpToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(907, 24);
@@ -124,7 +124,7 @@
             // 
             deleteRowsToolStripMenuItem.Enabled = false;
             deleteRowsToolStripMenuItem.Name = "deleteRowsToolStripMenuItem";
-            deleteRowsToolStripMenuItem.Size = new Size(180, 22);
+            deleteRowsToolStripMenuItem.Size = new Size(156, 22);
             deleteRowsToolStripMenuItem.Text = "Delete Rows";
             deleteRowsToolStripMenuItem.Click += deleteRowsToolStripMenuItem_Click;
             // 
@@ -133,7 +133,7 @@
             deleteRows2ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { deleteRowsNth2, deleteRowsNth3, deleteRowsNth4, deleteRowsNth5 });
             deleteRows2ToolStripMenuItem.Enabled = false;
             deleteRows2ToolStripMenuItem.Name = "deleteRows2ToolStripMenuItem";
-            deleteRows2ToolStripMenuItem.Size = new Size(180, 22);
+            deleteRows2ToolStripMenuItem.Size = new Size(156, 22);
             deleteRows2ToolStripMenuItem.Text = "Delete Nth Row";
             // 
             // deleteRowsNth2
@@ -168,9 +168,42 @@
             // 
             clearDataToolStripMenuItem.Enabled = false;
             clearDataToolStripMenuItem.Name = "clearDataToolStripMenuItem";
-            clearDataToolStripMenuItem.Size = new Size(180, 22);
+            clearDataToolStripMenuItem.Size = new Size(156, 22);
             clearDataToolStripMenuItem.Text = "Clear Data";
             clearDataToolStripMenuItem.Click += clearDataToolStripMenuItem_Click;
+            // 
+            // toolsToolStripMenuItem
+            // 
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { restoreDatabaseToolStripMenuItem, backupDatabaseToolStripMenuItem, toolStripSeparator1, clearDatabaseToolStripMenuItem });
+            toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            toolsToolStripMenuItem.Size = new Size(47, 20);
+            toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // restoreDatabaseToolStripMenuItem
+            // 
+            restoreDatabaseToolStripMenuItem.Name = "restoreDatabaseToolStripMenuItem";
+            restoreDatabaseToolStripMenuItem.Size = new Size(180, 22);
+            restoreDatabaseToolStripMenuItem.Text = "Restore Database";
+            restoreDatabaseToolStripMenuItem.Click += restoreDatabaseToolStripMenuItem_Click_1;
+            // 
+            // backupDatabaseToolStripMenuItem
+            // 
+            backupDatabaseToolStripMenuItem.Name = "backupDatabaseToolStripMenuItem";
+            backupDatabaseToolStripMenuItem.Size = new Size(180, 22);
+            backupDatabaseToolStripMenuItem.Text = "Backup Database";
+            backupDatabaseToolStripMenuItem.Click += backupDatabaseToolStripMenuItem_Click_1;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(177, 6);
+            // 
+            // clearDatabaseToolStripMenuItem
+            // 
+            clearDatabaseToolStripMenuItem.Name = "clearDatabaseToolStripMenuItem";
+            clearDatabaseToolStripMenuItem.Size = new Size(180, 22);
+            clearDatabaseToolStripMenuItem.Text = "ClearTable";
+            clearDatabaseToolStripMenuItem.Click += clearDatabaseToolStripMenuItem_Click_1;
             // 
             // viewToolStripMenuItem
             // 
@@ -183,7 +216,7 @@
             // 
             graphToolStripMenuItem.Enabled = false;
             graphToolStripMenuItem.Name = "graphToolStripMenuItem";
-            graphToolStripMenuItem.Size = new Size(180, 22);
+            graphToolStripMenuItem.Size = new Size(126, 22);
             graphToolStripMenuItem.Text = "Graph";
             graphToolStripMenuItem.Click += graphToolStripMenuItem_Click;
             // 
@@ -191,7 +224,7 @@
             // 
             fontSizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { smallToolStripMenuItem, mediumToolStripMenuItem, largeToolStripMenuItem });
             fontSizeToolStripMenuItem.Name = "fontSizeToolStripMenuItem";
-            fontSizeToolStripMenuItem.Size = new Size(180, 22);
+            fontSizeToolStripMenuItem.Size = new Size(126, 22);
             fontSizeToolStripMenuItem.Text = "Font Size";
             // 
             // smallToolStripMenuItem
@@ -220,39 +253,9 @@
             // tableInfoToolStripMenuItem
             // 
             tableInfoToolStripMenuItem.Name = "tableInfoToolStripMenuItem";
-            tableInfoToolStripMenuItem.Size = new Size(180, 22);
+            tableInfoToolStripMenuItem.Size = new Size(126, 22);
             tableInfoToolStripMenuItem.Text = "Table Info";
             tableInfoToolStripMenuItem.Click += tableInfoToolStripMenuItem_Click;
-            // 
-            // toolsToolStripMenuItem
-            // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { restoreDatabaseToolStripMenuItem, backupDatabaseToolStripMenuItem, toolStripSeparator1, clearDatabaseToolStripMenuItem });
-            toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(47, 20);
-            toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // restoreDatabaseToolStripMenuItem
-            // 
-            restoreDatabaseToolStripMenuItem.Name = "restoreDatabaseToolStripMenuItem";
-            restoreDatabaseToolStripMenuItem.Size = new Size(164, 22);
-            restoreDatabaseToolStripMenuItem.Text = "Restore Database";
-            // 
-            // backupDatabaseToolStripMenuItem
-            // 
-            backupDatabaseToolStripMenuItem.Name = "backupDatabaseToolStripMenuItem";
-            backupDatabaseToolStripMenuItem.Size = new Size(164, 22);
-            backupDatabaseToolStripMenuItem.Text = "Backup Database";
-            // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(161, 6);
-            // 
-            // clearDatabaseToolStripMenuItem
-            // 
-            clearDatabaseToolStripMenuItem.Name = "clearDatabaseToolStripMenuItem";
-            clearDatabaseToolStripMenuItem.Size = new Size(164, 22);
-            clearDatabaseToolStripMenuItem.Text = "ClearTable";
             // 
             // helpToolStripMenuItem
             // 
@@ -274,7 +277,7 @@
             listViewData.Font = new Font("Segoe UI", 16F);
             listViewData.Location = new Point(0, 76);
             listViewData.Name = "listViewData";
-            listViewData.Size = new Size(907, 581);
+            listViewData.Size = new Size(907, 1010);
             listViewData.TabIndex = 1;
             listViewData.UseCompatibleStateImageBehavior = false;
             listViewData.View = View.Details;
@@ -340,7 +343,7 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelRows, toolStripStatusLabelLocation, toolStripStatusLabel1, toolStripStatusLabel2 });
-            statusStrip1.Location = new Point(0, 634);
+            statusStrip1.Location = new Point(0, 1089);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(907, 22);
             statusStrip1.TabIndex = 6;
@@ -393,7 +396,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(907, 656);
+            ClientSize = new Size(907, 1111);
             Controls.Add(checkBoxSetDay);
             Controls.Add(buttonSearch);
             Controls.Add(statusStrip1);
