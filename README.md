@@ -15,6 +15,10 @@ But the web version can be run on all most common operating system (Windows, Lin
 In order to use the webvserver version, you haft to installa PHP. PHP reads the results from MySQL table
 PHP files are included with this project under HomePage folder.
 
+I chose the DHT22 sensor for this project, which is temperature and humitidy sensor.
+<img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" />
+Sensor DHT22 is connected to Rasepberry PI 5's pin 37 (GPIO 26). Trough GPIO26 Raspberry PI 5 reads the temperature and humitidy from sensor.
+
 In order to use both Sensor Device application and web version, you must create following database and table according to the directive below.
 MySQL have been chosen as database language for this project.
 
@@ -27,12 +31,6 @@ id int not null auto_increment,
 temp decimal(3,1),
 hum decimal(4,1),
 datecreated datetime default (current_timestamp),
-primary key(id)
-);
-
-create table systemstatus( 
-id int not null auto_increment, 
-dateupdated datetime, 
 primary key(id)
 );
 
