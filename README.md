@@ -1,25 +1,30 @@
-#Sensor Device
-This project is done with help of Visual Studio C#. Purpose for this project is to monitor both the computer's CPU 
-and harddisk temperature when using a Linux operatingsystem. In my case I used the Ubuntu 25.04 LTS. 
-You should also be able to use any kind of the most common Linux operating system for this purpose, but I have only tested on Ubuntu.
-It is also possible to check when the Linux computer have been last rebooted.
+# Sensor Device
 
-In order to use this application, you must create following database and tables according to the directive below.
+The goal with this project was to build a simple weather device that messaure temperature and humitidy and store the results to a MySQL table with a pyhton program.
+Then result can be read with the Sensor Device application (Visual Studio C#) and trough a webserver, that is installed on device.
+Pyhton program is included with this project under Pyhton folder.
+The device itself is Raspberry Pi 5 with Debian GNU/Linux 13 (trixie) as a operating system.
+
+The device can be connected to any network long as DCHP is enabled.
+If you wan't to use Wifi instead of wire, you use the scp command to transfer addwifi script, to the device. 
+The addwifi script file is included with this project under Files folder.
+
+Sensor Device application work only with computers that run Windows operating system. 
+But the web version can be run on all most common operating system (Windows, Linux, MacOS). 
+In order to use the webvserver version, you haft to installa PHP. PHP reads the results from MySQL table
+PHP files are included with this project under HomePage folder.
+
+In order to use both Sensor Device application and web version, you must create following database and table according to the directive below.
 MySQL have been chosen as database language for this project.
 
 ```
-create database serverpcstatus;
-use serverpcstatus;
+create database sensorinfo;
+use sensorinfo;
 
-create table infostatus3(
+create table sensorlog(
 id int not null auto_increment,
-cpustatus0 decimal(10,2),
-cpustatus1 decimal(10,2),
-cpustatus2 decimal(10,2),
-cpustatus3 decimal(10,2),
-cpustatus4 decimal(10,2),
-cpustatus5 decimal(10,2),
-hdstatus decimal(10,2),
+temp decimal(3,1),
+hum decimal(4,1),
 datecreated datetime default (current_timestamp),
 primary key(id)
 );
@@ -35,33 +40,21 @@ primary key(id)
 Description of the tables.
 
 ```
-mysql> desc infostatus;
-+-------------+---------------+------+-----+---------+-------------------+
-| Field       | Type          | Null | Key | Default | Extra             |
-+-------------+---------------+------+-----+---------+-------------------+
-| id          | int           | NO   | PRI | NULL    | auto_increment    |
-| cpustatus1  | decimal(10,2) | YES  |     | NULL    |                   |
-| datecreated | datetime      | YES  |     | now()   | DEFAULT_GENERATED |
-| hdstatus    | decimal(10,2) | YES  |     | NULL    |                   |
-| cpustatus2  | decimal(10,2) | YES  |     | NULL    |                   |
-| cpustatus3  | decimal(10,2) | YES  |     | NULL    |                   |
-| cpustatus4  | decimal(10,2) | YES  |     | NULL    |                   |
-| cpustatus5  | decimal(10,2) | YES  |     | NULL    |                   |
-| cpustatus0  | decimal(10,2) | YES  |     | NULL    |                   |
-+-------------+---------------+------+-----+---------+-------------------+
-9 rows in set (0.00 sec)
+mysql> desc sensorlog;
++-------------+--------------+------+-----+---------------------+----------------+
+| Field       | Type         | Null | Key | Default             | Extra          |
++-------------+--------------+------+-----+---------------------+----------------+
+| id          | int(11)      | NO   | PRI | NULL                | auto_increment |
+| temp        | decimal(3,1) | YES  |     | NULL                |                |
+| hum         | decimal(4,1) | YES  |     | NULL                |                |
+| datecreated | datetime     | YES  |     | current_timestamp() |                |
++-------------+--------------+------+-----+---------------------+----------------+
+4 rows in set (0.001 sec)
 
-mysql> desc systemstatus;
-+-------------+----------+------+-----+---------+----------------+
-| Field       | Type     | Null | Key | Default | Extra          |
-+-------------+----------+------+-----+---------+----------------+
-| id          | int      | NO   | PRI | NULL    | auto_increment |
-| dateupdated | datetime | YES  |     | NULL    |                |
-+-------------+----------+------+-----+---------+----------------+
-2 rows in set (0.00 sec)
+
 ```
 
-After creation of database and tables are done.
+After creation of database and table are done.
 Edit configdb.txt file with the correct info about your MySQL credentials with text editor of your choosing.
 Compaile or publish the project with Visual Studio 2022 to test it.
 
@@ -74,5 +67,5 @@ using Visual Studio.
 ![image](https://github.com/user-attachments/assets/92811a9f-766a-4b51-a065-d6da2243e2f4)
 
 **How to clone this repository with git.**
-https://github.com/EK76/ServerStatus.git<br/>
+https://github.com/EK76/SensorDevice.git<br/>
 If you discover any fault or inaccurate information, feel free to contact me trough epost address: ken.ekholm@live.com
