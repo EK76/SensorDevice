@@ -7,7 +7,8 @@ The device itself is Raspberry Pi 5 with Debian GNU/Linux 13 (trixie) as a opera
 
 The device can be connected to any network long as DCHP is enabled.
 If you wan't to use Wifi instead of wire, you use the scp command to transfer addwifi script, to the device. 
-The addwifi script file is included with this project under Files folder.
+The addwifi script file is included with this project under System folder. At the sama folder
+is also mo
 
 Sensor Device application work only with computers that run Windows operating system. 
 But the web version can be run on all most common operating system (Windows, Linux, MacOS). 
