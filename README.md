@@ -1,14 +1,14 @@
 # Sensor Device
 
 The goal with this project was to build a simple weather device that messaure temperature and humitidy and store the results to a MySQL table with a pyhton program.
-Then result can be read with the Sensor Device application (Visual Studio C#) and trough a webserver, that is installed on device.
-Pyhton program is included with this project under Pyhton folder.
+Then result can be read with the Sensor Device application (Visual Studio C#) and trough a webserver, that is installed on device. For this project I use
+the Apache as a webserver. Pyhton program is included with this project under Pyhton folder.
 The device itself is Raspberry Pi 5 with Debian GNU/Linux 13 (trixie) as a operating system.
 
 The device can be connected to any network long as DCHP is enabled.
 If you wan't to use Wifi instead of wire, you use the scp command to transfer addwifi script, to the device. 
-The addwifi script file is included with this project under System folder. At the sama folder
-is also mo
+The addwifi script file is included with this project under System folder. At the same folder
+is also modifytime.service file that can be used to start/stop/restart the pyhton program.
 
 Sensor Device application work only with computers that run Windows operating system. 
 But the web version can be run on all most common operating system (Windows, Linux, MacOS). 
@@ -51,7 +51,6 @@ mysql> desc sensorlog;
 | datecreated | datetime     | YES  |     | current_timestamp() |                |
 +-------------+--------------+------+-----+---------------------+----------------+
 4 rows in set (0.001 sec)
-
 
 ```
 
