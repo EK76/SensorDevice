@@ -17,7 +17,7 @@ and display the contents to web browser trough the Apache webserver. PHP files a
 
 I chose the DHT22 sensor for this project, which is temperature and humitidy sensor.
 <img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" />
-Sensor DHT22 is connected to Rasepberry PI 5's pin 37 (GPIO 26). Trough GPIO26 Raspberry PI 5 reads the temperature and humitidy from sensor.
+Sensor DHT22 is connected to Rasepberry PI 5's pin 12 (GPIO 18). Trough GPIO26 Raspberry PI 5 reads the temperature and humitidy from sensor.
 
 In order to use both Sensor Device application and web version, you must create following database and table according to the directive below.
 MySQL have been chosen as database language for this project.
@@ -61,8 +61,9 @@ when I developed this project. MySql.Data makes it easier to read from and make 
 using Visual Studio.
 
 **Two pictures of the application.**
-![image](https://github.com/user-attachments/assets/95aaf302-ddfd-45f1-aec9-0f0012a2b11a)
-![image](https://github.com/user-attachments/assets/92811a9f-766a-4b51-a065-d6da2243e2f4)
+<img width="907" height="1140" alt="image" src="https://github.com/user-attachments/assets/4fdca4ba-8aa0-4ffc-a7bc-4176bc3101cf" />
+<img width="2899" height="1165" alt="image" src="https://github.com/user-attachments/assets/6e875f94-fa7a-4938-b3c1-62978f6b8aab" />
+
 
 **How to clone this repository with git.**
 https://github.com/EK76/SensorDevice.git<br/>
