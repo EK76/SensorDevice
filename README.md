@@ -1,19 +1,19 @@
 # Sensor Device
 
-The goal with this project was to build a simple weather device that messaure temperature and humitidy and store the results to a MySQL table with a pyhton program.
-Then result can be read with the Sensor Device application (Visual Studio C#) and trough a webserver, that is installed on device. For this project I use
-the Apache as a webserver. Pyhton program is included with this project under Pyhton folder.
-The device itself is Raspberry Pi 5 with Debian GNU/Linux 13 (trixie) as a operating system.
+The main two goal with this project was to build a simple weather application which reads the content from MySQL table containing temperature and humitidy values, which are
+obtained from Raspberry PI 5 device with a help of DHT22 sensor. Another goal was that you could take this device to any network of your choosing  Python was used for storing values 
+from DHT22 sensor to MySQL table. The Pyhton program is included with this project  under the Pyhton folder. Later it was also possible to read the contents from web browser. For this I use
+the Apache as a webserver which was installed on the device. The operating system of the device is Debian GNU/Linux 13 (trixie)
 
-The device can be connected to any network long as DCHP is enabled.
-If you wan't to use Wifi instead of wire, you use the scp command to transfer addwifi script, to the device. 
+The device can be connected to any network long as DCHP is enabled and with wire connection.
+If you want to use Wifi instead of wire, you use the scp command to transfer addwifi script, to the device. 
 The addwifi script file is included with this project under System folder. At the same folder
 is also modifytime.service file that can be used to start/stop/restart the pyhton program.
 
 Sensor Device application work only with computers that run Windows operating system. 
-But the web version can be run on all most common operating system (Windows, Linux, MacOS). 
-In order to use the webvserver version, you haft to installa PHP. PHP reads the results from MySQL table
-PHP files are included with this project under HomePage folder.
+But the web version can be run on all most common operating system (Windows, Linux, MacOS). In order to 
+use the webvserver version, you haft to also install PHP on the device. PHP reads the results from MySQL table
+and display the contents to web browser trough the Apache webserver. PHP files are included with this project under HomePage folder.
 
 I chose the DHT22 sensor for this project, which is temperature and humitidy sensor.
 <img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" />
