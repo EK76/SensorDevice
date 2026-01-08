@@ -17,6 +17,7 @@ and display the contents to web browser trough the Apache webserver. PHP files a
 
 I chose the DHT22 sensor for this project, which is temperature and humitidy sensor.
 <img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" />
+
 Sensor DHT22 is connected to Rasepberry PI 5's pin 12 (GPIO 18). Trough GPIO26 Raspberry PI 5 reads the temperature and humitidy from sensor.
 
 In order to use both Sensor Device application and web version, you must create following database and table according to the directive below.
@@ -62,7 +63,8 @@ using Visual Studio.
 
 **Two pictures of the application.**
 <img width="907" height="1140" alt="image" src="https://github.com/user-attachments/assets/4fdca4ba-8aa0-4ffc-a7bc-4176bc3101cf" />
-<img width="2899" height="1165" alt="image" src="https://github.com/user-attachments/assets/6e875f94-fa7a-4938-b3c1-62978f6b8aab" />
+<img width="2899" height="1165" alt="image" src="https://github.com/user-attachments/assets/919214f7-15c7-4226-975e-6213cde9160d" />
+
 
 
 **How to clone this repository with git.**
