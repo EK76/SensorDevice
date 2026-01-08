@@ -62,6 +62,7 @@ when I developed this project. MySql.Data makes it easier to read from and make 
 using Visual Studio.
 
 **Two pictures of the application.**
+
 <img width="500" height="628" alt="pic1" src="https://github.com/user-attachments/assets/8b492c36-0cc9-4893-9660-aa03f6a0c0c9" />
 <img width="1400" height="563" alt="pic2" src="https://github.com/user-attachments/assets/4393a6bc-0412-4f3e-9697-11fc0eb0d1ee" />
 
