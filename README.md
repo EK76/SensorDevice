@@ -62,10 +62,8 @@ when I developed this project. MySql.Data makes it easier to read from and make 
 using Visual Studio.
 
 **Two pictures of the application.**
-<img width="907" height="1140" alt="image" src="https://github.com/user-attachments/assets/4fdca4ba-8aa0-4ffc-a7bc-4176bc3101cf" />
-<img width="2899" height="1165" alt="image" src="https://github.com/user-attachments/assets/919214f7-15c7-4226-975e-6213cde9160d" />
-
-
+<img width="500" height="628" alt="pic1" src="https://github.com/user-attachments/assets/8b492c36-0cc9-4893-9660-aa03f6a0c0c9" />
+<img width="1400" height="563" alt="pic2" src="https://github.com/user-attachments/assets/4393a6bc-0412-4f3e-9697-11fc0eb0d1ee" />
 
 **How to clone this repository with git.**
 https://github.com/EK76/SensorDevice.git<br/>
