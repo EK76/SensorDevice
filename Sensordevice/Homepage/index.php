@@ -2,17 +2,11 @@
 <html>
   <head>
     <link rel="stylesheet" href="style.css">
-  <script>
-</script>
-</head>
-<body>
+   
+  </head>
 
 <?php
-$hostname = "localhost";
-$username = "loguser";
-$password = "Test0880!";
-$db = "sensorinfo";
-$dbconnect=mysqli_connect($hostname,$username,$password,$db);
+require_once 'config.php';
 if ($dbconnect->connect_error) {
     die("Database connection failed: " . $dbconnect->connect_error);
 }
@@ -111,48 +105,124 @@ if(isset($_POST['showTable']))
 
     if ($rowcount!=0)
     {
-      echo "
-      <table border='1' align='center'>
-      <tr>
-      <td>Temperatur</td>
-      <td>Humitidy</td>
-      <td>Date created</td>
-      </tr> ";
- 
+    ?>
+    <center>
+      <table border="1" class="datarows">
+      <tr class="datarows2">
+      <td class="datarows2">Temperature</td>
+      <td class="datarows2">Humitidy</td>
+      <td class="datarows2">Datecreated</td>
+      </tr> 
+      <?php
+      $number = 0;
+      $tempitem[] = array('','Temperature');
+      $humitem[] = array('','Humitidy');
       while ($row = mysqli_fetch_array($query)) 
       {
         $datecreated2 = date('d.m.Y H:i:s', strtotime($row['datecreated']));
         echo" 
-        <tr>
-        <td>{$row['temp']}</td>
-        <td>{$row['hum']}</td>
-        <td>{$datecreated2}</td>
+        <tr class='datarows2'>
+        <td class='datarows2'>{$row['temp']}</td>
+        <td class='datarows2'>{$row['hum']}</td>
+        <td class='datarows2'>{$datecreated2}</td>
         </tr>";
+        $convertdate = date('d.m.Y', strtotime($row['datecreated']));
+        $converttime = date('h:i', strtotime($row['datecreated']));
+        if ($number == 0)
+        {
+          $startdate=$convertdate;
+          $starttime=$converttime;
+          $number=1;
+        }
+        $temp=(float)$row['temp'];
+        $hum=(float)$row['hum'];
+        $tempitem[]=array('',$temp);
+        $humitem[]=array('',$hum);
       }
       echo "</table>";
       echo "<br />";
+    $enddate=$convertdate;
+    $endtime=$converttime;
+   
+    $chartdata = json_encode($tempitem);
+    $chartdata2 = json_encode($humitem);
 
-      ?>  
-      <form action="" method="post" align="center" enctype="multipart/form-data">
-      <input type="hidden" value = "<?php echo $startdate?>" name="exportstartdate"/>
-      <input type="hidden" value = "<?php echo $enddate?>" name="exportenddate"/>
-      <input type="submit" value = "  Export to csv  " name="exportTable"/>
-      </form>
-      <?php  
+    ?>  
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    google.charts.load('current', {'packages':['line']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable(<?php echo $chartdata; ?>);
+            var data2 = google.visualization.arrayToDataTable(<?php echo $chartdata2; ?>);
+        var options = {
+         chart: {
+              title: 'Temperature Data',
+              legend: 'none',
+         },
+         vAxes: {
+         0: {baseline: 0}, 
+         }  
+
+  
+      };
+
+        var options2 = {
+         chart: {
+              title: 'Humitidy Data',
+              legend: 'none',
+         },
+         vAxes: {
+         0: {baseline: 0}, 
+         }  
+        };
+        var chart = new google.charts.Line(document.getElementById('tempchart'));
+        //chart.draw(data, google.charts.Line.convertOptions(options));
+         chart.draw(data, options);
+        var chart2 = new google.charts.Line(document.getElementById('humchart'));
+        //chart.draw(data, google.charts.Line.convertOptions(options));
+         chart2.draw(data2, options2);
+      }
+    </script>
+    <form action="" method="post" align="center" enctype="multipart/form-data">
+    <input type="hidden" value = "<?php echo $startdate?>" name="exportstartdate"/>
+    <input type="hidden" value = "<?php echo $enddate?>" name="exportenddate"/>
+    <input type="submit" value = "  Export to csv  " name="exportTable"/>
+    </form>
+    <form action="files/files.php" method="post" align="center">
+    <input type="submit" value = " CVS files "/>
+    </form>
+    <center>
+<table class="chartdata" border="0">
+<tr>
+<td>  
+<div id="tempchart" style="width: 800px; height: 500px; align: center border width: 0px"></div>
+</td>
+<td>
+<div id="humchart" style="width: 800px; height: 500px; align: center border width: 0px"></div>
+</td>
+</tr>
+</table>
+</center>
+<?php 
+echo "<br /><br />Start Date: ",$startdate; 
+echo " Start Time: ",$starttime; 
+echo "<br />End Date: ",$enddate; 
+echo " End Time: ",$endtime 
+?>
+    <?php  
     }
     else
     {
-       echo "<p class='errorcode1'>";
-       echo "None results!";
-       echo "</p>";
+      echo "<p class='errorcode1'>";
+      echo "None results!";
+      echo "</p>";
     }  
   }
   
 } 
 ?>
-<hr>
-<form action="files/files.php" method="post" align="center">
-<input type="submit" value = " CVS files "/>
-</form>
+
 </body>
 </html>

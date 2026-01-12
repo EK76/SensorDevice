@@ -1,15 +1,20 @@
 body {
-  background-color: rgb(98, 119, 163);
+  background-color: rgb(255, 255, 255);
 }
 
-table, td, th {
-  border: 1px solid black;
-}
 
-table {
+
+table.datarows {
   border-collapse: collapse;
-  width: 10%;
-  height: 5%;
+   border-bottom: 1px solid #ddd;
+  width: 15%;
+  height: 2%;
+}
+
+.datarows2 {
+    border: 1px solid black;
+  background-color: #a39f9f;
+  padding: 0px;
 }
 
 .maintext {
@@ -48,6 +53,12 @@ table {
   text-align: center;
 }
 
+table.chartdata {
+   border-collapse: collapse;
+  border-width: none;
+  padding: 0%;
+}
+
 hr {
   display: block;
   margin-top: 0.5em;
@@ -56,5 +67,11 @@ hr {
   margin-right: 20%;
   border-style: inset;
   border-width: 1px;
+  width: 50%;
+}
+
+th, td {
+  border-bottom: 1px solid #000000;
+  padding: 10px;
   width: 50%;
 }

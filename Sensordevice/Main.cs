@@ -416,7 +416,8 @@ namespace Sensordevice
                 reader3.Read();
                 showEndDate = reader3.GetDateTime("datecreated").ToString("dd.MM.yyyy HH:mm");
                 conn.Close();
-                MessageBox.Show("Number of rows: " + number.ToStrin            }
+                MessageBox.Show("First entry: " + showStartDate + "\nLast entry: " + showEndDate + "\nNumber of rows: " + number.ToString());
+            }
             else
             {
                 MessageBox.Show("Table sensorlog is empty.", "Ken's Sensor Device", MessageBoxButtons.OK, MessageBoxIcon.Information);
