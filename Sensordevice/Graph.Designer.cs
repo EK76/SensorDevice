@@ -94,7 +94,7 @@
             // 
             copyGraphsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { temperatureToolStripMenuItem, humitidyToolStripMenuItem });
             copyGraphsToolStripMenuItem.Name = "copyGraphsToolStripMenuItem";
-            copyGraphsToolStripMenuItem.Size = new Size(180, 22);
+            copyGraphsToolStripMenuItem.Size = new Size(142, 22);
             copyGraphsToolStripMenuItem.Text = "Copy Graphs";
             // 
             // temperatureToolStripMenuItem
@@ -115,27 +115,27 @@
             // 
             saveGraphsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { temperatureToolStripMenuItem2, humitidyToolStripMenuItem2 });
             saveGraphsToolStripMenuItem.Name = "saveGraphsToolStripMenuItem";
-            saveGraphsToolStripMenuItem.Size = new Size(180, 22);
+            saveGraphsToolStripMenuItem.Size = new Size(142, 22);
             saveGraphsToolStripMenuItem.Text = "Save Graphs";
             // 
             // temperatureToolStripMenuItem2
             // 
             temperatureToolStripMenuItem2.Name = "temperatureToolStripMenuItem2";
-            temperatureToolStripMenuItem2.Size = new Size(180, 22);
+            temperatureToolStripMenuItem2.Size = new Size(141, 22);
             temperatureToolStripMenuItem2.Text = "Temperature";
             temperatureToolStripMenuItem2.Click += temperatureToolStripMenuItem2_Click;
             // 
             // humitidyToolStripMenuItem2
             // 
             humitidyToolStripMenuItem2.Name = "humitidyToolStripMenuItem2";
-            humitidyToolStripMenuItem2.Size = new Size(180, 22);
+            humitidyToolStripMenuItem2.Size = new Size(141, 22);
             humitidyToolStripMenuItem2.Text = "Humitidy";
             humitidyToolStripMenuItem2.Click += humitidyToolStripMenuItem2_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(180, 22);
+            exitToolStripMenuItem.Size = new Size(142, 22);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 

@@ -194,7 +194,7 @@ namespace Sensordevice
                 MessageBox.Show(message.ToString());
             }
 
-            Title showTemp = chartTemp.Titles.Add("Temperature");
+            Title showTemp = chartTemp.Titles.Add("Humidity");
             showTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 15f, FontStyle.Bold);
 
             chartHum.Update();

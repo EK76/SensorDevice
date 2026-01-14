@@ -37,7 +37,7 @@
             // 
             // buttonClose
             // 
-            buttonClose.Location = new Point(417, 319);
+            buttonClose.Location = new Point(401, 295);
             buttonClose.Name = "buttonClose";
             buttonClose.Size = new Size(75, 23);
             buttonClose.TabIndex = 0;
@@ -53,7 +53,7 @@
             labelText.Name = "labelText";
             labelText.Size = new Size(464, 45);
             labelText.TabIndex = 1;
-            labelText.Text = "Ken's Sensor Device version 1.0";
+            labelText.Text = "Ken's Sensor Device version 1.4";
             // 
             // labelText2
             // 
@@ -89,7 +89,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(504, 354);
+            ClientSize = new Size(504, 332);
             Controls.Add(labelText4);
             Controls.Add(labelText3);
             Controls.Add(labelText2);
