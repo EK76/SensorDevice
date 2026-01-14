@@ -1,9 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <link rel="stylesheet" href="style.css">
-   
-  </head>
+<head>
+<link rel="stylesheet" href="style.css">
+</head>
 
 <?php
 require_once 'config.php';
@@ -15,8 +14,13 @@ if ($dbconnect->connect_error) {
 <p class="maintext">
 Ken's Sensor Device
 </p>
-<form action="" method="post" align="center" enctype="multipart/form-data">
+<center>
+<form action="" method="post" enctype="multipart/form-data">
+<table class="buttonvalue">
+<tr>
+<td>  
 <h4>Put start date</h4>
+
 <select name="startdate">
 <?php
 
@@ -29,6 +33,8 @@ while ($row = mysqli_fetch_array($query))
 }
 ?>
 </select>
+</td>
+<td>
 
 <h4>Put end date</h4>
 <select name="enddate">
@@ -42,10 +48,22 @@ while ($row = mysqli_fetch_array($query))
   echo $convertdate2;
 }
 ?>
-</select><br /><br />
-<input type="submit" value = "  OK  " name="showTable"/>
+</select>
+</td>
+<td>
+<br /><br />
+<input type="submit" value = " Search " name="showTable">
+</td>
+</tr>
+</table>
 </form>
 
+</center>
+<form action="files/files.php" method="post" class="files">
+<input type="submit" value = " CVS files "/>
+</form>
+<br /><br />
+<hr class="index">
 <?php
 
 if(isset($_POST['exportTable']))
@@ -107,27 +125,27 @@ if(isset($_POST['showTable']))
     {
     ?>
     <center>
-      <table border="1" class="datarows">
-      <tr class="datarows2">
-      <td class="datarows2">Temperature</td>
-      <td class="datarows2">Humitidy</td>
-      <td class="datarows2">Datecreated</td>
+      <table border="1" class="datarows2">
+      <tr>
+      <td>Temperature</td>
+      <td>Humitidy</td>
+      <td>Datecreated</td>
       </tr> 
       <?php
       $number = 0;
-      $tempitem[] = array('','Temperature');
-      $humitem[] = array('','Humitidy');
+      $tempitem[] = array('','Temperature (C)');
+      $humitem[] = array('','Humitidy (%)');
       while ($row = mysqli_fetch_array($query)) 
       {
         $datecreated2 = date('d.m.Y H:i:s', strtotime($row['datecreated']));
         echo" 
-        <tr class='datarows2'>
-        <td class='datarows2'>{$row['temp']}</td>
-        <td class='datarows2'>{$row['hum']}</td>
-        <td class='datarows2'>{$datecreated2}</td>
+        <tr>
+        <td>{$row['temp']} C</td>
+        <td>{$row['hum']} %</td>
+        <td>{$datecreated2}</td>
         </tr>";
         $convertdate = date('d.m.Y', strtotime($row['datecreated']));
-        $converttime = date('h:i', strtotime($row['datecreated']));
+        $converttime = date('H:i', strtotime($row['datecreated']));
         if ($number == 0)
         {
           $startdate=$convertdate;
@@ -139,6 +157,8 @@ if(isset($_POST['showTable']))
         $tempitem[]=array('',$temp);
         $humitem[]=array('',$hum);
       }
+      echo "</td>";
+      echo "</t>";
       echo "</table>";
       echo "<br />";
     $enddate=$convertdate;
@@ -148,81 +168,77 @@ if(isset($_POST['showTable']))
     $chartdata2 = json_encode($humitem);
 
     ?>  
+
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-    google.charts.load('current', {'packages':['line']});
+    google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
       var data = google.visualization.arrayToDataTable(<?php echo $chartdata; ?>);
-            var data2 = google.visualization.arrayToDataTable(<?php echo $chartdata2; ?>);
-        var options = {
-         chart: {
-              title: 'Temperature Data',
-              legend: 'none',
-         },
-         vAxes: {
-         0: {baseline: 0}, 
-         }  
+      var data2 = google.visualization.arrayToDataTable(<?php echo $chartdata2; ?>);
 
-  
+      var options = {
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        vAxis: {minValue: -40, maxValue: 40}
       };
 
-        var options2 = {
-         chart: {
-              title: 'Humitidy Data',
-              legend: 'none',
-         },
-         vAxes: {
-         0: {baseline: 0}, 
-         }  
-        };
-        var chart = new google.charts.Line(document.getElementById('tempchart'));
-        //chart.draw(data, google.charts.Line.convertOptions(options));
-         chart.draw(data, options);
-        var chart2 = new google.charts.Line(document.getElementById('humchart'));
-        //chart.draw(data, google.charts.Line.convertOptions(options));
-         chart2.draw(data2, options2);
-      }
-    </script>
-    <form action="" method="post" align="center" enctype="multipart/form-data">
-    <input type="hidden" value = "<?php echo $startdate?>" name="exportstartdate"/>
-    <input type="hidden" value = "<?php echo $enddate?>" name="exportenddate"/>
-    <input type="submit" value = "  Export to csv  " name="exportTable"/>
-    </form>
-    <form action="files/files.php" method="post" align="center">
-    <input type="submit" value = " CVS files "/>
-    </form>
-    <center>
-<table class="chartdata" border="0">
-<tr>
-<td>  
-<div id="tempchart" style="width: 800px; height: 500px; align: center border width: 0px"></div>
-</td>
-<td>
-<div id="humchart" style="width: 800px; height: 500px; align: center border width: 0px"></div>
-</td>
-</tr>
-</table>
-</center>
-<?php 
-echo "<br /><br />Start Date: ",$startdate; 
-echo " Start Time: ",$starttime; 
-echo "<br />End Date: ",$enddate; 
-echo " End Time: ",$endtime 
-?>
-    <?php  
-    }
-    else
-    {
+      var options2 = {
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        vAxis: {minValue: 0, maxValue: 100}
+      };
+      var chart = new google.visualization.LineChart(document.getElementById('tempchart'));
+      chart.draw(data, options);
+
+      var chart2 = new google.visualization.LineChart(document.getElementById('humchart'));
+      chart2.draw(data2, options2);
+   }
+   </script>
+
+   <table class="chartdata" border="0">
+   <tr>
+   <td>  
+   <div id="tempchart" style="width: 900px; height: 600px;"></div>
+   <p class="subtext1">
+   <?php 
+   echo "<br /><br />Start Date: ",$startdate; 
+   echo " &nbsp;&nbsp;&nbsp;&nbsp;";
+   echo " Start Time: ",$starttime; 
+   ?>
+   </p>
+   </td>
+   <td>
+   <div id="humchart" style="width: 900px; height: 600px;"></div>
+   <p class="subtext1">
+   <?php 
+   echo "<br /><br />End Date: ",$enddate; 
+   echo " &nbsp;&nbsp;&nbsp;&nbsp;";
+   echo " End Time: ",$endtime; 
+   ?>
+   </p>
+   </td>
+   </tr>
+   </table>
+   <br /><br />
+   <form action="" method="post" align="center" enctype="multipart/form-data">
+   <input type="hidden" value = "<?php echo $startdate?>" name="exportstartdate"/>
+   <input type="hidden" value = "<?php echo $enddate?>" name="exportenddate"/>
+   <input type="submit" value = "  Export to csv  " name="exportTable"/>
+   </form>
+   <br /><br /><br /><br /><br /> 
+   </center>
+   <?php
+   }
+   else
+   {
       echo "<p class='errorcode1'>";
       echo "None results!";
       echo "</p>";
     }  
   }
-  
 } 
 ?>
-
 </body>
 </html>
