@@ -1,8 +1,8 @@
 # Sensor Device
 
 The main two goal with this project was to build a simple weather application which reads the content from MySQL table containing temperature and humitidy values, which are
-obtained from Raspberry PI 5 device with a help of DHT22 sensor. Another goal was that you could take this device to any network of your choosing  Python was used for storing values 
-from DHT22 sensor to MySQL table. The Pyhton program is included with this project  under the Pyhton folder. Later it was also possible to read the contents from web browser. For this I use
+obtained from Raspberry PI 5 device with a help of DHT22 sensor. Another goal was that you could take this device to any network of your choosing. Python was used for storing values 
+from DHT22 sensor to MySQL table. The Pyhton program is included with this project under the Pyhton folder. Later it was also possible to read the contents trough web browser. For this I use
 the Apache as a webserver which was installed on the device. The operating system of the device is Debian GNU/Linux 13 (trixie)
 
 The device can be connected to any network long as DCHP is enabled and with wire connection.
@@ -14,6 +14,13 @@ Sensor Device application work only with computers that run Windows operating sy
 But the web version can be run on all most common operating system (Windows, Linux, MacOS). In order to 
 use the webvserver version, you haft to also install PHP on the device. PHP reads the results from MySQL table
 and display the contents to web browser trough the Apache webserver. PHP files are included with this project under HomePage folder.
+
+Homepage folder's conent.
+-index.php
+- files.php
+- config.php -> Where the database configuration is stored.
+- style.css
+
 
 I chose the DHT22 sensor for this project, which is temperature and humitidy sensor.
 <img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" />
