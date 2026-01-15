@@ -131,8 +131,10 @@ namespace Sensordevice
             {
                 chartTemp.Series[0].MarkerColor = colorDialog1.Color;
                 chartTemp.Series[0].BorderColor = colorDialog1.Color;
+                chartTemp.Series[0].Color = colorDialog1.Color;
                 chartHum.Series[0].MarkerColor = colorDialog1.Color;
                 chartHum.Series[0].BorderColor = colorDialog1.Color;
+                chartHum.Series[0].Color = colorDialog1.Color;
             }
         }
 
@@ -170,6 +172,7 @@ namespace Sensordevice
                 chartTemp.ChartAreas[0].AxisY.Maximum = 40;
                 chartTemp.ChartAreas[0].AxisY.Interval = 10;
                 chartTemp.ChartAreas[0].AxisY.MinorGrid.Interval = chartTemp.ChartAreas[0].AxisY.Interval / 2;
+                chartTemp.ChartAreas[0].AxisX.Enabled = AxisEnabled.False;
                 addPoint = -1;
 
                 foreach (var addValue in FormMain.listTemp)
@@ -206,7 +209,8 @@ namespace Sensordevice
                 chartHum.ChartAreas[0].AxisY.Minimum = 0;
                 chartHum.ChartAreas[0].AxisY.Maximum = 100;
                 chartHum.ChartAreas[0].AxisY.Interval = 10;
-                chartTemp.ChartAreas[0].AxisY.MinorGrid.Interval = chartHum.ChartAreas[0].AxisY.Interval / 2;
+                chartHum.ChartAreas[0].AxisY.MinorGrid.Interval = chartHum.ChartAreas[0].AxisY.Interval / 2;
+                chartHum.ChartAreas[0].AxisX.Enabled = AxisEnabled.False;
                 addPoint = -1;
 
                 foreach (var addValue in FormMain.listHum)

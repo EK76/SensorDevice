@@ -150,7 +150,7 @@
             // 
             sizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { smallToolStripMenuItem, mediumToolStripMenuItem, largeToolStripMenuItem });
             sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            sizeToolStripMenuItem.Size = new Size(143, 22);
+            sizeToolStripMenuItem.Size = new Size(180, 22);
             sizeToolStripMenuItem.Text = "Maker Size";
             // 
             // smallToolStripMenuItem
@@ -180,7 +180,7 @@
             // 
             markerPointToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { circleToolStripMenuItem, triangleToolStripMenuItem, squareToolStripMenuItem, starToolStripMenuItem, noneToolStripMenuItem });
             markerPointToolStripMenuItem.Name = "markerPointToolStripMenuItem";
-            markerPointToolStripMenuItem.Size = new Size(143, 22);
+            markerPointToolStripMenuItem.Size = new Size(180, 22);
             markerPointToolStripMenuItem.Text = "Marker Point";
             // 
             // circleToolStripMenuItem
@@ -222,14 +222,14 @@
             // markerColorToolStripMenuItem
             // 
             markerColorToolStripMenuItem.Name = "markerColorToolStripMenuItem";
-            markerColorToolStripMenuItem.Size = new Size(143, 22);
+            markerColorToolStripMenuItem.Size = new Size(180, 22);
             markerColorToolStripMenuItem.Text = "Marker Color";
             markerColorToolStripMenuItem.Click += markerColorToolStripMenuItem_Click;
             // 
             // defaultToolStripMenuItem
             // 
             defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            defaultToolStripMenuItem.Size = new Size(143, 22);
+            defaultToolStripMenuItem.Size = new Size(180, 22);
             defaultToolStripMenuItem.Text = "Default";
             defaultToolStripMenuItem.Click += defaultToolStripMenuItem_Click;
             // 
@@ -325,6 +325,7 @@
             // 
             // chartTemp
             // 
+            chartArea1.AxisY.Minimum = 1D;
             chartArea1.Name = "ChartArea1";
             chartTemp.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";

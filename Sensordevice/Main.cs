@@ -1,6 +1,7 @@
 using Microsoft.VisualBasic.ApplicationServices;
 using MySql.Data.MySqlClient;
 using MySql.Data.MySqlClient;
+using ReadTemp;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using secInfo;
@@ -539,7 +540,7 @@ namespace Sensordevice
                     clearDataToolStripMenuItem.Enabled = true;
                     saveToolStripMenuItem.Enabled = false;
                     graphToolStripMenuItem.Enabled = false;
-                   
+
                 }
                 catch (Exception i)
                 {
@@ -547,5 +548,12 @@ namespace Sensordevice
                 }
             }
         }
+
+        private void hardwareInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            FormTechnicalInfo hardware = new FormTechnicalInfo();
+            hardware.ShowDialog();
+        }       
     }
 }
