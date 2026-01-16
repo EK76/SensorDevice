@@ -28,6 +28,12 @@ table.datarows2 {
   text-align: center;
 }
 
+.maintext2 {
+  color: rgb(0, 0, 0);
+  font-size: 36px;
+  text-align: left;
+}
+
 .subtext1 {
   color: black;
   font-size: 22px;
@@ -41,14 +47,14 @@ table.datarows2 {
 }
 
 .subtext3 {
-  color: rgb(0, 0, 0);
+  color:rgb(0, 0, 0);
   font-size: 22px;
   text-align: left;
 }
 
 .subtext4 {
-  color: rgb(0, 0, 0);
-  font-size: 34px;
+  color: rgb(131, 9, 9);
+  font-size: 22px;
   text-align: left;
 }
 

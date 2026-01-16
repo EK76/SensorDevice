@@ -1,3 +1,6 @@
+<?php
+header("Cache-Control: no-store, must-revalidate, max-age=0");
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -81,21 +84,25 @@ if(isset($_POST['exportTable']))
  
   $output = fopen("files/data_".$currentdate.".csv", "w");  
   fputcsv($output, array('Temperature', 'Humitidy', 'Date'));  
-  $query = "select temp, hum, datecreated from sensorlog where datecreated between '".$exportstartdate."' and '".$exportenddate."' + INTERVAL 1 DAY";  
-  $result = mysqli_query($dbconnect, $query);  
-  while($row = mysqli_fetch_assoc($result))  
+
+  $query = mysqli_query($dbconnect, "select * from sensorlog where datecreated between '".$exportstartdate."' and '".$exportenddate."' + INTERVAL 1 DAY")
+  or die (mysqli_error($dbconnect));
+
+  while ($row = mysqli_fetch_assoc($query))  
   {  
-      fputcsv($output, $row);  
+      fputcsv($output,$row);  
   }  
   fclose($output);  
 } 
 
-
 if(isset($_POST['showTable']))
 { 
   $startdate = $_POST['startdate']; 
-  $enddate = $_POST['enddate']; 
- 
+  $enddate = $_POST['enddate'];
+
+  $exportstartdate = $_POST['startdate']; 
+  $exportenddate = $_POST['enddate'];
+   
   if ($startdate > $enddate)
   {
     echo "<center>";
@@ -109,7 +116,6 @@ if(isset($_POST['showTable']))
     $query = mysqli_query($dbconnect, "select * from sensorlog where datecreated between '".$startdate."' and '".$enddate."' + INTERVAL 1 DAY")
     or die (mysqli_error($dbconnect));
     echo '<p class="subtext1">';
-  
     $row = mysqli_fetch_row($query);
 
     $query2 = mysqli_query($dbconnect, "select * from sensorlog where datecreated between '".$startdate."' and '".$enddate."' + INTERVAL 1 DAY order by datecreated desc limit 1")
@@ -223,8 +229,8 @@ if(isset($_POST['showTable']))
    </table>
    <br /><br />
    <form action="" method="post" align="center" enctype="multipart/form-data">
-   <input type="hidden" value = "<?php echo $startdate?>" name="exportstartdate"/>
-   <input type="hidden" value = "<?php echo $enddate?>" name="exportenddate"/>
+   <input type="hidden" value = "<?php echo $exportstartdate?>" name="exportstartdate"/>
+   <input type="hidden" value = "<?php echo $exportenddate?>" name="exportenddate"/>
    <input type="submit" value = "  Export to csv  " name="exportTable"/>
    </form>
    <br /><br /><br /><br /><br /> 
