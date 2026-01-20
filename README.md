@@ -1,27 +1,27 @@
 # Sensor Device
 
-The main two goal with this project was to build a simple weather application (Sensor Device) created by Visual Studio 2022 C# which reads the content from MySQL table containing temperature and humitidy values, which are
+The main two goal with this project was to build a simple weather application (Ken's Sensor Device) created by Visual Studio 2022 C# which reads the content from MySQL table containing temperature and humitidy values, which are
 obtained from Raspberry PI 5 device with a help of DHT22 sensor. Another goal was that you could use this device to any network of your choosing. Python was used for storing values 
-from DHT22 sensor to MySQL table. The Pyhton program is included to this project under the Pyhton folder. Later during this projecy it was also possible to read the contents trough a web browser. 
+from DHT22 sensor to MySQL table. The Pyhton program is included to this project under the Pyhton folder. It was also made possible to read the contents trough a web browser. 
 For this I use the Apache as a webserver which was installed on the device. The operating system of the device is Debian GNU/Linux 13 (trixie).
 
 The device can be connected to any network long as DCHP is enabled and with wire connection.
-If you want to use Wifi instead of wire, you use the scp command to transfer addwifi script to the device. 
+If you want to use Wifi instead of wire, you can use the scp command to transfer addwifi script to the device. 
 The addwifi script file is included with this project under System folder. At the same folder
-is also modifytime.service file that can be used to start/stop/restart the pyhton program.
+is also modifytime.service file that can be used to start/stop/restart the pyhton program working as a service on the device.
 
 Sensor Device application work only with computers that run under Windows operating system. 
 But the web version can be run on all most common operating system (Windows, Linux, MacOS). In order to 
-use the webvserver version, you haft to also install PHP on the device. PHP reads the results from MySQL table
+use the webvserver version, you haft to also install also PHP besides Apache and MySQL on the device. PHP reads the results from MySQL table
 and display the contents to web browser trough the Apache webserver. PHP files are included with this project under HomePage folder.
 
-I have also added a button which purpose is to turn off the sensor if you only wan't look at sensordata stored to a MySQL table.
-This function is included  to sama pyhton program, where sensor device stores it's data to MySQL table.
+I have also added a button to the deivce which purpose is to turn off the sensor if you only wan't look at sensor data stored to a MySQL table.
+This code for button function is found in the same pyhton program, where sensor device stores it's data to MySQL table.
 
 Homepage folder's conent.
 
 - index.php -> Where the result of sensor is shown from MySQL table.
-- files.php -> Where files are stored as cvs format with data taken from MySQL table.
+- files.php -> Where files are stored as cvs format with selected data exported from the MySQL table.
 - config.php -> Where the database configuration is stored.
 - style.css -> Where the design of the homepages is configured.
 
@@ -30,8 +30,8 @@ To the show result as diagram I used [Google Chart Gallery][https://developers.g
 As mention before I chose the DHT22 sensor for this project, which is both temperature and humitidy sensor.
 <img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" />
 
-Sensor DHT22 device's signal is connected to Rasepberry PI 5's pin 12 (GPIO 18) where it reads the temperature and humitidy from sensor.
-Operating voltage 3.3V-5.5V.
+Sensor DHT22's signal is connected to Rasepberry PI 5's pin 12 (GPIO 18) where it reads the temperature and humitidy from sensor.
+Operating voltage is 3.3V-5.5V for the DHT 22 sensor. the button is conected to pin ang ground (GND).
 
 Sensor DHT22 pinout.
 <img width="348" height="295" alt="image" src="https://github.com/user-attachments/assets/eeeafe8d-5864-4a19-a55e-c85f11f0b5e5" />
