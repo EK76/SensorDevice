@@ -102,7 +102,6 @@ namespace Sensordevice
             smallToolStripMenuItem.Checked = true;
             mediumToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = false;
-
         }
 
         private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
