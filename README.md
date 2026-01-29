@@ -2,7 +2,7 @@
 
 The goal with this project was to build a simple weather application (Ken's Sensor Device) created by Visual Studio 2022 C# which reads the content from MySQL table containing temperature and humitidy values, which are
 obtained from Raspberry PI 5 device with a help of DHT22 sensor. The DHT22 sensor reads temperature and humitidy values. Another goal was that you could use this device to any network of your choosing. Python was used for storing values 
-from DHT22 sensor to MySQL table. The Pyhton program is included to this project under the Pyhton folder. It was also made possible to read the contents trough a web browser. 
+from DHT22 sensor to MySQL table. The Pyhton program is included to this project under the Pyhton folder. It was also made possible to read the contents from the MySQL table trough a web browser. 
 For this I use the Apache as a webserver which was installed on the device. The operating system of the device is Debian GNU/Linux 13 (trixie).
 
 The device can be connected to any network long as DCHP is enabled and with wire connection.
@@ -21,7 +21,8 @@ and display the contents to web browser trough the Apache webserver. PHP files a
 - config.php -> Where the database configuration is stored.
 - style.css -> Where the design of the homepages is configured.
 
-To the show result as diagram I used [Google Chart Gallery][https://developers.google.com/chart/interactive/docs/gallery].
+To the show result as diagram I used [Google Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery).
+In my case I named my Raspberry PI 5 to sensordevice. It means that I can in this case read the contents of MySQL table with this url, *http://sensordevice*.
 
 **Schema.**
 
@@ -29,7 +30,7 @@ I have also added 16x2 display with I2C interface and switch button with indicat
 The display show date,time and data from sensor alternately after same delay. The switch button's purpose is to turn off the sensor if you only wan't look at sensor data stored to a MySQL table
 and not store any data. 
 
-<img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" />
+<img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" /><br />
 Sensor DHT22's signal is connected to Rasepberry PI 5's pin 12 (GPIO 18) where it reads the temperature and humitidy from sensor.
 Operating voltage is 3.3V - 5.5V for the DHT 22 sensor. The switch button that turn sensor on/off is conected to pin 31 (GPIO6) and the indicator led
 is connected to pin 33 (GPIO 13). Display I2C interface is connected trough SDA and SCL on both I2C interface and Raspberry PI 5 device. The display'
