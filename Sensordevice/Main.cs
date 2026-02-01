@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using Microsoft.VisualBasic.ApplicationServices;
 using MySql.Data.MySqlClient;
 using MySql.Data.MySqlClient;
@@ -6,8 +7,10 @@ using Renci.SshNet;
 using Renci.SshNet.Common;
 using secInfo;
 using System.Data;
+using System.Globalization;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Sensordevice
 {
@@ -22,9 +25,11 @@ namespace Sensordevice
         public static List<string> listTemp = new List<string>();
         public static List<string> listHum = new List<string>();
         public static List<string> listDate = new List<string>();
-        string newStartDate, newEndDate, passwordString, currentDate;
-        DateTime startDate, endDate;
-        int countItems, counterItems;
+        public static bool confirmed;
+        string newStartDate, newEndDate, passwordString, currentDate, setDate;
+        string showStartDate, showEndDate;
+        DateTime startDate, endDate, setDate2;
+        int countItems, counterItems, showNumbers, number;
         bool checkFile = true;
         string[] inputPass = File.ReadAllLines("input.txt");
 
@@ -268,9 +273,12 @@ namespace Sensordevice
             connString = "SERVER = sensordevice; DATABASE = sensorinfo; UID = loguser; PASSWORD =";
             passwordString = Security.decrypt(inputPass[0], "weather");
             connString = connString + passwordString + ";";
-
-
+            currentDate = DateTime.Now.ToString("dd-MM-yyyy");
+            DateTime currentDate2 = DateTime.ParseExact(currentDate, "dd-MM-yyyy",CultureInfo.InvariantCulture);
+            dateTimePickerStartDate.MaxDate = currentDate2;
+            dateTimePickerEndDate.MaxDate = currentDate2;
         }
+
 
         private void listViewData_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -330,8 +338,7 @@ namespace Sensordevice
 
         private void dateTimePickerStartDate_Enter(object sender, EventArgs e)
         {
-            DateTime currentDay = DateTime.Today;
-            dateTimePickerStartDate.MaxDate = currentDay;
+          
         }
 
         private void checkBoxSetDay_CheckedChanged(object sender, EventArgs e)
@@ -387,10 +394,6 @@ namespace Sensordevice
 
         private void tableInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string showStartDate, showEndDate;
-            int number;
-
-
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
             checkString = "select count(*) as 'number' from sensorlog;";
@@ -451,26 +454,33 @@ namespace Sensordevice
         {
             string fileName = "";
             OpenFileDialog openContent = new OpenFileDialog();
+            MySqlConnection conn = new MySqlConnection(connString);
+            conn.Open();
+            checkString = "select count(id) as numbers from sensorlog;";
+            MySqlCommand command = new MySqlCommand(checkString, conn);
+            MySqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            showNumbers = reader.GetInt32("numbers");
+            conn.Close();
 
             openContent.Title = "Restore";
             openContent.Filter = "MysSQL Backup File (.sql) | *.sql";
-
             try
             {
                 if (openContent.ShowDialog() == DialogResult.OK)
                 {
                     fileName = openContent.FileName.ToString();
                     {
-                        using (MySqlConnection conn = new MySqlConnection(connString))
+                        using (MySqlConnection conn2 = new MySqlConnection(connString))
                         {
                             using (MySqlCommand cmd = new MySqlCommand())
                             {
                                 using (MySqlBackup mb = new MySqlBackup(cmd))
                                 {
-                                    cmd.Connection = conn;
-                                    conn.Open();
+                                    cmd.Connection = conn2;
+                                    conn2.Open();
                                     mb.ImportFromFile(fileName);
-                                    conn.Close();
+                                    conn2.Close();
                                 }
                             }
                         }
@@ -486,67 +496,63 @@ namespace Sensordevice
 
         private void backupDatabaseToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
+
+            int number;
             string filename = "";
             SaveFileDialog saveContent = new SaveFileDialog();
 
-            saveContent.Title = "Backup";
-            saveContent.Filter = "MysSQL Backup File (.sql) | *.sql";
-            try
-            {
-                if (saveContent.ShowDialog() == DialogResult.OK)
-                {
-                    filename = saveContent.FileName.ToString();
-                    if (filename != "")
-                    {
-                        using (MySqlConnection conn = new MySqlConnection(connString))
-                        {
-                            using (MySqlCommand cmd = new MySqlCommand())
-                            {
-                                using (MySqlBackup mb = new MySqlBackup(cmd))
-                                {
-                                    cmd.Connection = conn;
-                                    conn.Open();
-                                    mb.ExportToFile(filename);
-                                    conn.Close();
-                                }
-                            }
-                        }
-                        MessageBox.Show("File " + filename + " is susccessfully backuped!");
-                    }
-                }
-            }
-            catch (Exception i)
-            {
-                MessageBox.Show(i.Message);
-            }
-        }
+            MySqlConnection conn = new MySqlConnection(connString);
+            conn.Open();
+            checkString = "select count(*) as 'number' from sensorlog;";
+            MySqlCommand command = new MySqlCommand(checkString, conn);
+            MySqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            number = reader.GetInt32("number");
+            conn.Close();
 
-        private void clearDatabaseToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show("Are you sure to empty the sensorlog table", "Ken's SensorDevice", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (number > 0)
             {
+                saveContent.Title = "Backup";
+                saveContent.Filter = "MysSQL Backup File (.sql) | *.sql";
                 try
                 {
-                    MySqlConnection conn = new MySqlConnection(connString);
-                    conn.Open();
-                    checkString = "delete from sensorlog";
-                    MySqlCommand command = new MySqlCommand(checkString, conn);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    conn.Close();
-                    listViewData.Clear();
-                    deleteRowsToolStripMenuItem.Enabled = false;
-                    deleteRows2ToolStripMenuItem.Enabled = false;
-                    clearDataToolStripMenuItem.Enabled = true;
-                    saveToolStripMenuItem.Enabled = false;
-                    graphToolStripMenuItem.Enabled = false;
-
+                    if (saveContent.ShowDialog() == DialogResult.OK)
+                    {
+                        filename = saveContent.FileName.ToString();
+                        if (filename != "")
+                        {
+                            using (MySqlConnection conn2 = new MySqlConnection(connString))
+                            {
+                                using (MySqlCommand cmd = new MySqlCommand())
+                                {
+                                    using (MySqlBackup mb = new MySqlBackup(cmd))
+                                    {
+                                        cmd.Connection = conn2;
+                                        conn2.Open();
+                                        mb.ExportToFile(filename);
+                                        conn2.Close();
+                                    }
+                                }
+                            }
+                            MessageBox.Show("File " + filename + " is susccessfully backuped!");
+                        }
+                    }
                 }
                 catch (Exception i)
                 {
                     MessageBox.Show(i.Message);
                 }
             }
+            else
+            {
+                MessageBox.Show("Sensor table is empty, none backup done!");
+            }
+        }
+
+        private void clearDatabaseToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            FormConfirm confirm = new FormConfirm();
+            confirm.ShowDialog();
         }
 
         private void hardwareInfoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -554,6 +560,21 @@ namespace Sensordevice
 
             FormTechnicalInfo hardware = new FormTechnicalInfo();
             hardware.ShowDialog();
-        }       
+        }
+
+        private void FormMain_Activated(object sender, EventArgs e)
+        {
+            if (confirmed == true)
+            {
+                listViewData.Clear();
+                deleteRowsToolStripMenuItem.Enabled = false;
+                deleteRows2ToolStripMenuItem.Enabled = false;
+                clearDataToolStripMenuItem.Enabled = false;
+                saveToolStripMenuItem.Enabled = false;
+                graphToolStripMenuItem.Enabled = false;
+                confirmed = false;
+            }
+        }
+      
     }
 }

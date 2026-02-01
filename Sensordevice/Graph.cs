@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Sensordevice
 {
@@ -95,33 +96,6 @@ namespace Sensordevice
             noneToolStripMenuItem.Checked = false;
         }
 
-        private void smallToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            chartTemp.Series[0].MarkerSize = 8;
-            chartHum.Series[0].MarkerSize = 8;
-            smallToolStripMenuItem.Checked = true;
-            mediumToolStripMenuItem.Checked = false;
-            largeToolStripMenuItem.Checked = false;
-        }
-
-        private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            chartTemp.Series[0].MarkerSize = 16;
-            chartHum.Series[0].MarkerSize = 16;
-            smallToolStripMenuItem.Checked = false;
-            mediumToolStripMenuItem.Checked = true;
-            largeToolStripMenuItem.Checked = false;
-        }
-
-        private void largeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            chartTemp.Series[0].MarkerSize = 22;
-            chartHum.Series[0].MarkerSize = 22;
-            smallToolStripMenuItem.Checked = false;
-            mediumToolStripMenuItem.Checked = false;
-            largeToolStripMenuItem.Checked = true;
-        }
-
         private void markerColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             colorDialog1.AllowFullOpen = true;
@@ -139,24 +113,22 @@ namespace Sensordevice
 
         private void defaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            chartTemp.Series[0].MarkerSize = 16;
-            chartHum.Series[0].MarkerSize = 16;
+            chartTemp.Series[0].MarkerSize = 12;
+            chartHum.Series[0].MarkerSize = 12;
             chartTemp.Series[0].MarkerStyle = MarkerStyle.Circle;
             chartHum.Series[0].MarkerStyle = MarkerStyle.Circle;
             chartTemp.Series[0].MarkerColor = Color.Black;
             chartTemp.Series[0].BorderColor = Color.Black;
+            chartTemp.Series[0].Color = Color.Black;
             chartHum.Series[0].MarkerColor = Color.Black;
             chartHum.Series[0].BorderColor = Color.Black;
-
-            smallToolStripMenuItem.Checked = false;
-            mediumToolStripMenuItem.Checked = true;
-            largeToolStripMenuItem.Checked = false;
-
+            chartHum.Series[0].Color = Color.Black;
             circleToolStripMenuItem.Checked = true;
             triangleToolStripMenuItem.Checked = false;
             squareToolStripMenuItem.Checked = false;
             starToolStripMenuItem.Checked = false;
             noneToolStripMenuItem.Checked = false;
+            trackBarMarkerSize.Value = 12;
         }
 
         private void FormGraph_Load(object sender, EventArgs e)
@@ -390,7 +362,21 @@ namespace Sensordevice
             }
         }
 
+        private void trackBarMarkerSize_Scroll(object sender, EventArgs e)
+        {
+            chartTemp.Series[0].MarkerSize = trackBarMarkerSize.Value;
+            chartHum.Series[0].MarkerSize = trackBarMarkerSize.Value;
+        }
 
+        private void trackBarMarkerSize_MouseHover(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trackBarMarkerSize_MouseMove(object sender, MouseEventArgs e)
+        {
+            toolTipTrackSize.SetToolTip(trackBarMarkerSize, trackBarMarkerSize.Value.ToString());
+        }
     }
 }
 

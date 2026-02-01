@@ -53,6 +53,7 @@
             mediumToolStripMenuItem = new ToolStripMenuItem();
             largeToolStripMenuItem = new ToolStripMenuItem();
             tableInfoToolStripMenuItem = new ToolStripMenuItem();
+            hardwareInfoToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             listViewData = new ListView();
@@ -71,7 +72,6 @@
             buttonSearch = new Button();
             fontDialog1 = new FontDialog();
             checkBoxSetDay = new CheckBox();
-            hardwareInfoToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -95,7 +95,7 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(103, 22);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
@@ -103,14 +103,14 @@
             // 
             saveToolStripMenuItem.Enabled = false;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(180, 22);
+            saveToolStripMenuItem.Size = new Size(103, 22);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(180, 22);
+            exitToolStripMenuItem.Size = new Size(103, 22);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -217,7 +217,7 @@
             // 
             graphToolStripMenuItem.Enabled = false;
             graphToolStripMenuItem.Name = "graphToolStripMenuItem";
-            graphToolStripMenuItem.Size = new Size(180, 22);
+            graphToolStripMenuItem.Size = new Size(149, 22);
             graphToolStripMenuItem.Text = "Graph";
             graphToolStripMenuItem.Click += graphToolStripMenuItem_Click;
             // 
@@ -225,7 +225,7 @@
             // 
             fontSizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { smallToolStripMenuItem, mediumToolStripMenuItem, largeToolStripMenuItem });
             fontSizeToolStripMenuItem.Name = "fontSizeToolStripMenuItem";
-            fontSizeToolStripMenuItem.Size = new Size(180, 22);
+            fontSizeToolStripMenuItem.Size = new Size(149, 22);
             fontSizeToolStripMenuItem.Text = "Font Size";
             // 
             // smallToolStripMenuItem
@@ -254,9 +254,16 @@
             // tableInfoToolStripMenuItem
             // 
             tableInfoToolStripMenuItem.Name = "tableInfoToolStripMenuItem";
-            tableInfoToolStripMenuItem.Size = new Size(180, 22);
+            tableInfoToolStripMenuItem.Size = new Size(149, 22);
             tableInfoToolStripMenuItem.Text = "Table Info";
             tableInfoToolStripMenuItem.Click += tableInfoToolStripMenuItem_Click;
+            // 
+            // hardwareInfoToolStripMenuItem
+            // 
+            hardwareInfoToolStripMenuItem.Name = "hardwareInfoToolStripMenuItem";
+            hardwareInfoToolStripMenuItem.Size = new Size(149, 22);
+            hardwareInfoToolStripMenuItem.Text = "Hardware Info";
+            hardwareInfoToolStripMenuItem.Click += hardwareInfoToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -268,7 +275,7 @@
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new Size(180, 22);
+            aboutToolStripMenuItem.Size = new Size(107, 22);
             aboutToolStripMenuItem.Text = "About";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
@@ -309,7 +316,6 @@
             dateTimePickerStartDate.TabIndex = 2;
             dateTimePickerStartDate.Value = new DateTime(2025, 12, 2, 0, 0, 0, 0);
             dateTimePickerStartDate.ValueChanged += dateTimePickerStartDate_ValueChanged;
-            dateTimePickerStartDate.Enter += dateTimePickerStartDate_Enter;
             // 
             // dateTimePickerEndDate
             // 
@@ -393,13 +399,6 @@
             checkBoxSetDay.UseVisualStyleBackColor = true;
             checkBoxSetDay.CheckedChanged += checkBoxSetDay_CheckedChanged;
             // 
-            // hardwareInfoToolStripMenuItem
-            // 
-            hardwareInfoToolStripMenuItem.Name = "hardwareInfoToolStripMenuItem";
-            hardwareInfoToolStripMenuItem.Size = new Size(180, 22);
-            hardwareInfoToolStripMenuItem.Text = "Hardware Info";
-            hardwareInfoToolStripMenuItem.Click += hardwareInfoToolStripMenuItem_Click;
-            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -421,6 +420,7 @@
             Name = "FormMain";
             ShowIcon = false;
             Text = "Ken's Sensor Device";
+            Activated += FormMain_Activated;
             Load += FormMain_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -435,17 +435,12 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
-        private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
         private ToolStripMenuItem viewToolStripMenuItem;
-        private ToolStripMenuItem graphToolStripMenuItem;
         private ToolStripMenuItem toolsToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripMenuItem editToolStripMenuItem;
-        private ToolStripMenuItem deleteRowsToolStripMenuItem;
-        private ToolStripMenuItem clearDataToolStripMenuItem;
-        private ListView listViewData;
         private DateTimePicker dateTimePickerStartDate;
         private DateTimePicker dateTimePickerEndDate;
         private Label labelDateStart;
@@ -470,11 +465,16 @@
         private ToolStripSeparator toolStripSeparator1;
         private CheckBox checkBoxSetDay;
         private ToolStripMenuItem tableInfoToolStripMenuItem;
-        private ToolStripMenuItem deleteRows2ToolStripMenuItem;
         private ToolStripMenuItem deleteRowsNth2;
         private ToolStripMenuItem deleteRowsNth3;
         private ToolStripMenuItem deleteRowsNth4;
         private ToolStripMenuItem deleteRowsNth5;
         private ToolStripMenuItem hardwareInfoToolStripMenuItem;
+        public ListView listViewData;
+        public ToolStripMenuItem saveToolStripMenuItem;
+        public ToolStripMenuItem graphToolStripMenuItem;
+        public ToolStripMenuItem deleteRowsToolStripMenuItem;
+        public ToolStripMenuItem clearDataToolStripMenuItem;
+        public ToolStripMenuItem deleteRows2ToolStripMenuItem;
     }
 }

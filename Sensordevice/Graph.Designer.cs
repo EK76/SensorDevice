@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -44,10 +45,6 @@
             humitidyToolStripMenuItem2 = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
             editToolStripMenuItem = new ToolStripMenuItem();
-            sizeToolStripMenuItem = new ToolStripMenuItem();
-            smallToolStripMenuItem = new ToolStripMenuItem();
-            mediumToolStripMenuItem = new ToolStripMenuItem();
-            largeToolStripMenuItem = new ToolStripMenuItem();
             markerPointToolStripMenuItem = new ToolStripMenuItem();
             circleToolStripMenuItem = new ToolStripMenuItem();
             triangleToolStripMenuItem = new ToolStripMenuItem();
@@ -68,10 +65,14 @@
             chartTemp = new System.Windows.Forms.DataVisualization.Charting.Chart();
             chartHum = new System.Windows.Forms.DataVisualization.Charting.Chart();
             colorDialog1 = new ColorDialog();
+            trackBarMarkerSize = new TrackBar();
+            labelTrackSize = new Label();
+            toolTipTrackSize = new ToolTip(components);
             menuStrip1.SuspendLayout();
             panelInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)chartTemp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chartHum).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBarMarkerSize).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -141,46 +142,16 @@
             // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sizeToolStripMenuItem, markerPointToolStripMenuItem, markerColorToolStripMenuItem, defaultToolStripMenuItem });
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { markerPointToolStripMenuItem, markerColorToolStripMenuItem, defaultToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.Size = new Size(39, 20);
             editToolStripMenuItem.Text = "Edit";
-            // 
-            // sizeToolStripMenuItem
-            // 
-            sizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { smallToolStripMenuItem, mediumToolStripMenuItem, largeToolStripMenuItem });
-            sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            sizeToolStripMenuItem.Size = new Size(180, 22);
-            sizeToolStripMenuItem.Text = "Maker Size";
-            // 
-            // smallToolStripMenuItem
-            // 
-            smallToolStripMenuItem.Name = "smallToolStripMenuItem";
-            smallToolStripMenuItem.Size = new Size(119, 22);
-            smallToolStripMenuItem.Text = "Small";
-            smallToolStripMenuItem.Click += smallToolStripMenuItem_Click;
-            // 
-            // mediumToolStripMenuItem
-            // 
-            mediumToolStripMenuItem.Checked = true;
-            mediumToolStripMenuItem.CheckState = CheckState.Checked;
-            mediumToolStripMenuItem.Name = "mediumToolStripMenuItem";
-            mediumToolStripMenuItem.Size = new Size(119, 22);
-            mediumToolStripMenuItem.Text = "Medium";
-            mediumToolStripMenuItem.Click += mediumToolStripMenuItem_Click;
-            // 
-            // largeToolStripMenuItem
-            // 
-            largeToolStripMenuItem.Name = "largeToolStripMenuItem";
-            largeToolStripMenuItem.Size = new Size(119, 22);
-            largeToolStripMenuItem.Text = "Large";
-            largeToolStripMenuItem.Click += largeToolStripMenuItem_Click;
             // 
             // markerPointToolStripMenuItem
             // 
             markerPointToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { circleToolStripMenuItem, triangleToolStripMenuItem, squareToolStripMenuItem, starToolStripMenuItem, noneToolStripMenuItem });
             markerPointToolStripMenuItem.Name = "markerPointToolStripMenuItem";
-            markerPointToolStripMenuItem.Size = new Size(180, 22);
+            markerPointToolStripMenuItem.Size = new Size(143, 22);
             markerPointToolStripMenuItem.Text = "Marker Point";
             // 
             // circleToolStripMenuItem
@@ -222,14 +193,14 @@
             // markerColorToolStripMenuItem
             // 
             markerColorToolStripMenuItem.Name = "markerColorToolStripMenuItem";
-            markerColorToolStripMenuItem.Size = new Size(180, 22);
+            markerColorToolStripMenuItem.Size = new Size(143, 22);
             markerColorToolStripMenuItem.Text = "Marker Color";
             markerColorToolStripMenuItem.Click += markerColorToolStripMenuItem_Click;
             // 
             // defaultToolStripMenuItem
             // 
             defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            defaultToolStripMenuItem.Size = new Size(180, 22);
+            defaultToolStripMenuItem.Size = new Size(143, 22);
             defaultToolStripMenuItem.Text = "Default";
             defaultToolStripMenuItem.Click += defaultToolStripMenuItem_Click;
             // 
@@ -370,11 +341,36 @@
             chartHum.Text = "chart2";
             chartHum.GetToolTipText += chartHum_GetToolTipText;
             // 
+            // trackBarMarkerSize
+            // 
+            trackBarMarkerSize.Location = new Point(2571, 1054);
+            trackBarMarkerSize.Maximum = 20;
+            trackBarMarkerSize.Minimum = 4;
+            trackBarMarkerSize.Name = "trackBarMarkerSize";
+            trackBarMarkerSize.Size = new Size(281, 45);
+            trackBarMarkerSize.TabIndex = 4;
+            trackBarMarkerSize.Value = 12;
+            trackBarMarkerSize.Scroll += trackBarMarkerSize_Scroll;
+            trackBarMarkerSize.MouseHover += trackBarMarkerSize_MouseHover;
+            trackBarMarkerSize.MouseMove += trackBarMarkerSize_MouseMove;
+            // 
+            // labelTrackSize
+            // 
+            labelTrackSize.AutoSize = true;
+            labelTrackSize.Font = new Font("Segoe UI", 12F);
+            labelTrackSize.Location = new Point(2580, 1102);
+            labelTrackSize.Name = "labelTrackSize";
+            labelTrackSize.Size = new Size(119, 21);
+            labelTrackSize.TabIndex = 5;
+            labelTrackSize.Text = "Set marker size.";
+            // 
             // FormGraph
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(2904, 1139);
+            Controls.Add(labelTrackSize);
+            Controls.Add(trackBarMarkerSize);
             Controls.Add(chartHum);
             Controls.Add(chartTemp);
             Controls.Add(panelInfo);
@@ -393,6 +389,7 @@
             panelInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)chartTemp).EndInit();
             ((System.ComponentModel.ISupportInitialize)chartHum).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBarMarkerSize).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -415,10 +412,6 @@
         private Label labelEndDate;
         private Label labelStartDate;
         private Label labelMax;
-        private ToolStripMenuItem sizeToolStripMenuItem;
-        private ToolStripMenuItem smallToolStripMenuItem;
-        private ToolStripMenuItem mediumToolStripMenuItem;
-        private ToolStripMenuItem largeToolStripMenuItem;
         private ToolStripMenuItem markerPointToolStripMenuItem;
         private ToolStripMenuItem circleToolStripMenuItem;
         private ToolStripMenuItem triangleToolStripMenuItem;
@@ -434,5 +427,8 @@
         private ToolStripMenuItem defaultToolStripMenuItem;
         private ColorDialog colorDialog1;
         private ToolStripMenuItem noneToolStripMenuItem;
+        private TrackBar trackBarMarkerSize;
+        private Label labelTrackSize;
+        private ToolTip toolTipTrackSize;
     }
 }
