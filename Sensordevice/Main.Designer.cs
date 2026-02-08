@@ -72,6 +72,7 @@
             buttonSearch = new Button();
             fontDialog1 = new FontDialog();
             checkBoxSetDay = new CheckBox();
+            shutdownDeviceToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -175,7 +176,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { restoreDatabaseToolStripMenuItem, backupDatabaseToolStripMenuItem, toolStripSeparator1, clearDatabaseToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { restoreDatabaseToolStripMenuItem, backupDatabaseToolStripMenuItem, toolStripSeparator1, clearDatabaseToolStripMenuItem, shutdownDeviceToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(47, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -183,26 +184,26 @@
             // restoreDatabaseToolStripMenuItem
             // 
             restoreDatabaseToolStripMenuItem.Name = "restoreDatabaseToolStripMenuItem";
-            restoreDatabaseToolStripMenuItem.Size = new Size(164, 22);
+            restoreDatabaseToolStripMenuItem.Size = new Size(180, 22);
             restoreDatabaseToolStripMenuItem.Text = "Restore Database";
             restoreDatabaseToolStripMenuItem.Click += restoreDatabaseToolStripMenuItem_Click_1;
             // 
             // backupDatabaseToolStripMenuItem
             // 
             backupDatabaseToolStripMenuItem.Name = "backupDatabaseToolStripMenuItem";
-            backupDatabaseToolStripMenuItem.Size = new Size(164, 22);
+            backupDatabaseToolStripMenuItem.Size = new Size(180, 22);
             backupDatabaseToolStripMenuItem.Text = "Backup Database";
             backupDatabaseToolStripMenuItem.Click += backupDatabaseToolStripMenuItem_Click_1;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(161, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // clearDatabaseToolStripMenuItem
             // 
             clearDatabaseToolStripMenuItem.Name = "clearDatabaseToolStripMenuItem";
-            clearDatabaseToolStripMenuItem.Size = new Size(164, 22);
+            clearDatabaseToolStripMenuItem.Size = new Size(180, 22);
             clearDatabaseToolStripMenuItem.Text = "ClearTable";
             clearDatabaseToolStripMenuItem.Click += clearDatabaseToolStripMenuItem_Click_1;
             // 
@@ -326,6 +327,7 @@
             dateTimePickerEndDate.Name = "dateTimePickerEndDate";
             dateTimePickerEndDate.Size = new Size(90, 25);
             dateTimePickerEndDate.TabIndex = 3;
+            dateTimePickerEndDate.CloseUp += dateTimePickerEndDate_CloseUp;
             // 
             // labelDateStart
             // 
@@ -378,6 +380,7 @@
             // 
             // buttonSearch
             // 
+            buttonSearch.Enabled = false;
             buttonSearch.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             buttonSearch.Location = new Point(263, 47);
             buttonSearch.Name = "buttonSearch";
@@ -398,6 +401,13 @@
             checkBoxSetDay.Text = "Today's date";
             checkBoxSetDay.UseVisualStyleBackColor = true;
             checkBoxSetDay.CheckedChanged += checkBoxSetDay_CheckedChanged;
+            // 
+            // shutdownDeviceToolStripMenuItem
+            // 
+            shutdownDeviceToolStripMenuItem.Name = "shutdownDeviceToolStripMenuItem";
+            shutdownDeviceToolStripMenuItem.Size = new Size(180, 22);
+            shutdownDeviceToolStripMenuItem.Text = "Shutdown Device";
+            shutdownDeviceToolStripMenuItem.Click += shutdownDeviceToolStripMenuItem_Click;
             // 
             // FormMain
             // 
@@ -476,5 +486,6 @@
         public ToolStripMenuItem deleteRowsToolStripMenuItem;
         public ToolStripMenuItem clearDataToolStripMenuItem;
         public ToolStripMenuItem deleteRows2ToolStripMenuItem;
+        private ToolStripMenuItem shutdownDeviceToolStripMenuItem;
     }
 }

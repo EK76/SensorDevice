@@ -11,10 +11,19 @@ import board
 import adafruit_dht
 import I2C_LCD_driver
 import time
+import atexit
+import subprocess
+import signal
 
+def disabledevice():
+    greenled.off()
+    redled.off()
+    sensorlcd.lcd_display_string("    DEVICE      ", 1)
+    sensorlcd.lcd_display_string("    SHUTDOWNED.  ", 2)
 
 sensor =  adafruit_dht.DHT22(board.D18)
-led = LED(13) 
+redled = LED(13) 
+greenled = LED(26)
 button = Button(6,pull_up = True,bounce_time= None) 
 
 config = {
@@ -26,7 +35,8 @@ config = {
 
 
 try:
-    led.on()
+    greenled.on()
+    redled.off()
     checked = True
     counter=0
     lcdcounter=0
@@ -43,18 +53,17 @@ try:
        humidity = sensor.humidity
        sensorlcd = I2C_LCD_driver.lcd()
        if humidity is not None and temperature is not None and counter == 1800:
-                  temperature = sensor.temperature
-                  humidity = sensor.humidity
-                  temperature=(round(temperature,2))
-                  humidity=(round(humidity,4))
-                  mysql_insert_query = """INSERT INTO sensorlog(temp, hum) VALUES ('%s','%s')"""
-                  cursor = connection.cursor()
-                  record = (temperature, humidity)
-                  cursor.execute(mysql_insert_query, record)
-                  connection.commit()
-                  print("Record inserted successfully into table weatherdata", temperature, " ", humidity)
-                  cursor.close()
-                  
+            temperature = sensor.temperature
+            humidity = sensor.humidity
+            temperature=(round(temperature,2))
+            humidity=(round(humidity,4))
+            mysql_insert_query = """INSERT INTO sensorlog(temp, hum) VALUES ('%s','%s')"""
+            cursor = connection.cursor()
+            record = (temperature, humidity)
+            cursor.execute(mysql_insert_query, record)
+            connection.commit()
+            print("Record inserted successfully into table weatherdata", temperature, " ", humidity)
+            cursor.close()                  
        sensorlcd.lcd_display_string("Date: %s" %time.strftime("%d.%m.%Y"), 1)
        sensorlcd.lcd_display_string("Time: %s" %time.strftime("%H:%M:%S"), 2)
 
@@ -79,11 +88,18 @@ try:
                print ("Checked: ", checked)
                if checked == True:
                   checked = False
+                  sensorlcd.lcd_clear()
+                  sensorlcd.lcd_display_string("    SENSOR", 1)
+                  sensorlcd.lcd_display_string("    DISABLED", 2)
                else:
                   checked = True
+                  sensorlcd.lcd_clear()
+                  sensorlcd.lcd_display_string("    SENSOR", 1)
+                  sensorlcd.lcd_display_string("    ENABLED", 2)
                   sleep(0.5)
             if checked == True:  
-               led.on()
+               greenled.on()
+               redled.off()  
                counter+=1
                print("Counter:", counter)
                if humidity is not None and temperature is not None and counter == 1800:
@@ -100,10 +116,11 @@ try:
                   cursor.close()
                   counter = 0
             else:
-               led.off()  
+               greenled.off()  
+               redled.on()  
                print("LED OFF!")
             sleep(1)
-
+            atexit.register(disabledevice)
 except mysql.connector.Error as error:
     print("Failed to insert record into table {}".format(error))
 

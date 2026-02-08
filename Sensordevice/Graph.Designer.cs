@@ -240,9 +240,8 @@
             labelInfo.Font = new Font("Segoe UI", 12F);
             labelInfo.Location = new Point(7, 235);
             labelInfo.Name = "labelInfo";
-            labelInfo.Size = new Size(52, 21);
+            labelInfo.Size = new Size(0, 21);
             labelInfo.TabIndex = 5;
-            labelInfo.Text = "label2";
             // 
             // labelMax
             // 

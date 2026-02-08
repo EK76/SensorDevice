@@ -8,6 +8,9 @@ header("Cache-Control: no-store, must-revalidate, max-age=0");
 </script>
 </head>
 <body>
+<p class="maintext">
+Ken's Sensor Device
+</p>
 <p class="maintext2">
 Contents of the cvs files.
 </br>
@@ -17,7 +20,9 @@ Contents of the cvs files.
 if(isset($_POST['showFile']))
 { 
     echo nl2br(file_get_contents($_POST['show']));
-    echo "<br /><button onclick='history.back() '>Back</button>";
+    echo "<form action='files.php' method='post'>
+    <input type='submit' value = ' Back '>
+    </form>";
 } 
 
 
@@ -32,30 +37,38 @@ else
     echo "File ",basename($delete)," is deleted!<br />";
     echo "</p>";
   }    
-  $folder = "/var/www/sensordevice/files/";
-  $file= glob($folder . "*.csv");
 
-  foreach($file as $file2)
+
+  $folder = "/var/www/sensordevice/files/";
+  $files= glob($folder . "*.csv");
+  $files = array_combine(array_map("filemtime", $files), $files);
+  krsort($files);
+  
+  foreach($files as $files2)
   {
     echo "<p class='subtext3'>";
-    echo basename($file2, "&nbsp;&nbsp;&nbsp;&nbsp;");
+    echo basename($files2, "&nbsp;&nbsp;&nbsp;&nbsp;");
+
+    
   ?>
   <table class="buttonvalue">
   <tr>
   <td>  
   <form action="" method="post" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to delete this file?')">
-  <input type="hidden" name="delete" value="<?php echo basename($file2)?>">
+  <input type="hidden" name="delete" value="<?php echo basename($files2)?>">
   <input type="submit" value = "  Delete file  " name="deleteFile"/>
   </form>
   </td>
   <td>
   <form action="" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="show" value="<?php echo basename($file2)?>">
+  <input type="hidden" name="show" value="<?php echo basename($files2)?>">
   <input type="submit" value = "  Show contents  " name="showFile"/>
   </form>
   </td>
   <td>
-  <button class="btn"><a href="<?php echo basename($file2)?>" download="<?php echo basename($file2)?>">Download</a></button>  
+  <form method="get" action="<?php echo basename($files2)?>">
+  <button type="submit">Download</button>
+  </form>
   </td>
   </tr>
   </table>

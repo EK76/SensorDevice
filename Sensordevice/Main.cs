@@ -2,6 +2,7 @@ using Google.Protobuf;
 using Microsoft.VisualBasic.ApplicationServices;
 using MySql.Data.MySqlClient;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI;
 using ReadTemp;
 using Renci.SshNet;
 using Renci.SshNet.Common;
@@ -10,6 +11,7 @@ using System.Data;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Sensordevice
@@ -31,6 +33,10 @@ namespace Sensordevice
         DateTime startDate, endDate, setDate2;
         int countItems, counterItems, showNumbers, number;
         bool checkFile = true;
+        string user = "sensoruser";
+        string password;
+        string host = "sensordevice";
+
         string[] inputPass = File.ReadAllLines("input.txt");
 
         private void rowDeletions(int number)
@@ -43,7 +49,7 @@ namespace Sensordevice
 
             foreach (ListViewItem deleteValue in listViewData.Items)
             {
-                if (countSelected < number)
+                if (countSelected < number && counterItems != 0)
                 {
                     itemCheck = listViewData.Items.Count;
                     if (counterItems < itemCheck)
@@ -58,7 +64,6 @@ namespace Sensordevice
                     counterItems = counterCheck;
                     listViewData.Update();
                 }
-                counterItems++;
                 countSelected++;
             }
             toolStripStatusLabelRows.Text = "Numbers of rows: " + listViewData.Items.Count.ToString();
@@ -246,7 +251,7 @@ namespace Sensordevice
         {
             if (MessageBox.Show("Clear data?", "Ken's Sensor Device.", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                listViewData.Clear();
+                listViewData.Items.Clear();
                 deleteRowsToolStripMenuItem.Enabled = false;
                 deleteRows2ToolStripMenuItem.Enabled = false;
                 saveToolStripMenuItem.Enabled = false;
@@ -274,7 +279,7 @@ namespace Sensordevice
             passwordString = Security.decrypt(inputPass[0], "weather");
             connString = connString + passwordString + ";";
             currentDate = DateTime.Now.ToString("dd-MM-yyyy");
-            DateTime currentDate2 = DateTime.ParseExact(currentDate, "dd-MM-yyyy",CultureInfo.InvariantCulture);
+            DateTime currentDate2 = DateTime.ParseExact(currentDate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             dateTimePickerStartDate.MaxDate = currentDate2;
             dateTimePickerEndDate.MaxDate = currentDate2;
         }
@@ -283,7 +288,6 @@ namespace Sensordevice
         private void listViewData_SelectedIndexChanged(object sender, EventArgs e)
         {
             deleteRowsToolStripMenuItem.Enabled = listViewData.SelectedItems.Count > 0;
-            //  deleteRows2ToolStripMenuItem.Enabled = listViewData.SelectedItems.Count > 6;
 
             if (listViewData.Items.Count < 0)
             {
@@ -338,7 +342,7 @@ namespace Sensordevice
 
         private void dateTimePickerStartDate_Enter(object sender, EventArgs e)
         {
-          
+
         }
 
         private void checkBoxSetDay_CheckedChanged(object sender, EventArgs e)
@@ -572,9 +576,29 @@ namespace Sensordevice
                 clearDataToolStripMenuItem.Enabled = false;
                 saveToolStripMenuItem.Enabled = false;
                 graphToolStripMenuItem.Enabled = false;
+                buttonSearch.Enabled = false;
                 confirmed = false;
             }
         }
-      
+        private void dateTimePickerEndDate_CloseUp(object sender, EventArgs e)
+        {
+            buttonSearch.Enabled = true;
+        }
+
+        private void shutdownDeviceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            password = Properties.Settings.Default.sshpass;
+            DialogResult dialogResult = MessageBox.Show("Are you sure to shutdown the device", "Ken's Sensor Device", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                using (var client = new SshClient(host, user, password))
+                {
+                    client.Connect();
+                    var output = client.RunCommand("sudo shutdown now");
+                    client.Disconnect();
+                }
+                MessageBox.Show("Device is shutdown, wait a minute before disconnecting the power!");
+            }
+        }
     }
 }

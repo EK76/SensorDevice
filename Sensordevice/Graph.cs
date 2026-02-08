@@ -234,8 +234,8 @@ namespace Sensordevice
             {
                 var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
                 point = showValue.PointIndex;
-                e.Text = string.Format("Date: {0}\n" + "Temperature " + ": {1} " + " °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                labelInfo.Text = string.Format("Date: {0}\n" + "Temperature " + ":{1} " + " °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                e.Text = string.Format("Date: {0}\n" + "Temperature" + ": {1} " + " °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                labelInfo.Text = string.Format("Date: {0}\n" + "Temperature" + ": {1} " + " °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
             }
             else
             {
@@ -251,8 +251,8 @@ namespace Sensordevice
             {
                 var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
                 point = showValue.PointIndex;
-                e.Text = string.Format("Date: {0}\n" + "Humitidy " + ": {1} " + " %", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                labelInfo.Text = string.Format("Date: {0}\n" + "Humitidy " + ":{1} " + " %", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                e.Text = string.Format("Date: {0}\n" + "Humitidy" + ": {1} " + " %", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                labelInfo.Text = string.Format("Date: {0}\n" + "Humitidy" + ": {1} " + " %", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
             }
             else
             {

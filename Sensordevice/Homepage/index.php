@@ -60,14 +60,17 @@ while ($row = mysqli_fetch_array($query))
 </tr>
 </table>
 </form>
-
 </center>
 <form action="files/files.php" method="post" class="files">
 <input type="submit" value = " CVS files "/>
 </form>
 <br /><br />
+
 <hr class="index">
+
+
 <?php
+
 
 if(isset($_POST['exportTable']))
 { 
