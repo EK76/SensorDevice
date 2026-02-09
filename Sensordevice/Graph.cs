@@ -33,21 +33,6 @@ namespace Sensordevice
         {
             Close();
         }
-
-        private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (detailsToolStripMenuItem.Checked == true)
-            {
-                panelInfo.Visible = false;
-                detailsToolStripMenuItem.Checked = false;
-            }
-            else
-            {
-                panelInfo.Visible = true;
-                detailsToolStripMenuItem.Checked = true;
-            }
-        }
-
         private void circleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             chartTemp.Series[0].MarkerStyle = MarkerStyle.Circle;
@@ -113,8 +98,8 @@ namespace Sensordevice
 
         private void defaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            chartTemp.Series[0].MarkerSize = 12;
-            chartHum.Series[0].MarkerSize = 12;
+            chartTemp.Series[0].MarkerSize = 10;
+            chartHum.Series[0].MarkerSize = 10;
             chartTemp.Series[0].MarkerStyle = MarkerStyle.Circle;
             chartHum.Series[0].MarkerStyle = MarkerStyle.Circle;
             chartTemp.Series[0].MarkerColor = Color.Black;
@@ -128,7 +113,13 @@ namespace Sensordevice
             squareToolStripMenuItem.Checked = false;
             starToolStripMenuItem.Checked = false;
             noneToolStripMenuItem.Checked = false;
-            trackBarMarkerSize.Value = 12;
+            trackBarMarkerSize.Value = 10;
+            chartTemp.Series[0].BorderWidth = 2;
+            chartHum.Series[0].BorderWidth = 2;
+            smallToolStripMenuItem.Checked = true;
+            mediumToolStripMenuItem.Checked = false;
+            largeToolStripMenuItem.Checked = false;
+            labelTrackSize.Text = "Marker size: 10";
         }
 
         private void FormGraph_Load(object sender, EventArgs e)
@@ -268,7 +259,7 @@ namespace Sensordevice
                 Bitmap chartImage = new Bitmap(mStream);
                 Clipboard.SetImage(chartImage);
             }
-            MessageBox.Show("Chart diagram copied!");
+            MessageBox.Show("Temperature chart diagram copied!");
 
         }
 
@@ -280,7 +271,7 @@ namespace Sensordevice
                 Bitmap chartImage = new Bitmap(mStream);
                 Clipboard.SetImage(chartImage);
             }
-            MessageBox.Show("Chart diagram copied!");
+            MessageBox.Show("Humitidy chart diagram copied!");
 
         }
 
@@ -289,7 +280,7 @@ namespace Sensordevice
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "png Image|*.png|jpeg Image|*.jpg";
             saveFileDialog.Title = "Save Chart As Image File";
-            saveFileDialog.FileName = "chart";
+            saveFileDialog.FileName = "tempchart";
 
             DialogResult result = saveFileDialog.ShowDialog();
             saveFileDialog.RestoreDirectory = true;
@@ -328,7 +319,7 @@ namespace Sensordevice
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "png Image|*.png|jpeg Image|*.jpg";
             saveFileDialog.Title = "Save Chart As Image File";
-            saveFileDialog.FileName = "chart";
+            saveFileDialog.FileName = "humchart";
 
             DialogResult result = saveFileDialog.ShowDialog();
             saveFileDialog.RestoreDirectory = true;
@@ -366,6 +357,7 @@ namespace Sensordevice
         {
             chartTemp.Series[0].MarkerSize = trackBarMarkerSize.Value;
             chartHum.Series[0].MarkerSize = trackBarMarkerSize.Value;
+            labelTrackSize.Text = "Marker size: " + trackBarMarkerSize.Value; 
         }
 
         private void trackBarMarkerSize_MouseHover(object sender, EventArgs e)
@@ -376,6 +368,33 @@ namespace Sensordevice
         private void trackBarMarkerSize_MouseMove(object sender, MouseEventArgs e)
         {
             toolTipTrackSize.SetToolTip(trackBarMarkerSize, trackBarMarkerSize.Value.ToString());
+        }
+
+        private void largeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chartTemp.Series[0].BorderWidth = 7; 
+            chartHum.Series[0].BorderWidth = 7;
+            smallToolStripMenuItem.Checked = false;
+            mediumToolStripMenuItem.Checked = false;
+            largeToolStripMenuItem.Checked = true;
+        }
+
+        private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chartTemp.Series[0].BorderWidth = 4;
+            chartHum.Series[0].BorderWidth = 4;
+            smallToolStripMenuItem.Checked = false;
+            mediumToolStripMenuItem.Checked = true;
+            largeToolStripMenuItem.Checked = false;
+        }
+
+        private void smallToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chartTemp.Series[0].BorderWidth = 2;
+            chartHum.Series[0].BorderWidth = 2;
+            smallToolStripMenuItem.Checked = true;
+            mediumToolStripMenuItem.Checked = false;
+            largeToolStripMenuItem.Checked = false;
         }
     }
 }

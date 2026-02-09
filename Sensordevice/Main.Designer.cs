@@ -46,6 +46,7 @@
             backupDatabaseToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             clearDatabaseToolStripMenuItem = new ToolStripMenuItem();
+            shutdownDeviceToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem = new ToolStripMenuItem();
             graphToolStripMenuItem = new ToolStripMenuItem();
             fontSizeToolStripMenuItem = new ToolStripMenuItem();
@@ -71,8 +72,7 @@
             toolStripStatusLabel2 = new ToolStripStatusLabel();
             buttonSearch = new Button();
             fontDialog1 = new FontDialog();
-            checkBoxSetDay = new CheckBox();
-            shutdownDeviceToolStripMenuItem = new ToolStripMenuItem();
+            buttonSetDate = new Button();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -184,28 +184,35 @@
             // restoreDatabaseToolStripMenuItem
             // 
             restoreDatabaseToolStripMenuItem.Name = "restoreDatabaseToolStripMenuItem";
-            restoreDatabaseToolStripMenuItem.Size = new Size(180, 22);
+            restoreDatabaseToolStripMenuItem.Size = new Size(166, 22);
             restoreDatabaseToolStripMenuItem.Text = "Restore Database";
             restoreDatabaseToolStripMenuItem.Click += restoreDatabaseToolStripMenuItem_Click_1;
             // 
             // backupDatabaseToolStripMenuItem
             // 
             backupDatabaseToolStripMenuItem.Name = "backupDatabaseToolStripMenuItem";
-            backupDatabaseToolStripMenuItem.Size = new Size(180, 22);
+            backupDatabaseToolStripMenuItem.Size = new Size(166, 22);
             backupDatabaseToolStripMenuItem.Text = "Backup Database";
             backupDatabaseToolStripMenuItem.Click += backupDatabaseToolStripMenuItem_Click_1;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(163, 6);
             // 
             // clearDatabaseToolStripMenuItem
             // 
             clearDatabaseToolStripMenuItem.Name = "clearDatabaseToolStripMenuItem";
-            clearDatabaseToolStripMenuItem.Size = new Size(180, 22);
+            clearDatabaseToolStripMenuItem.Size = new Size(166, 22);
             clearDatabaseToolStripMenuItem.Text = "ClearTable";
             clearDatabaseToolStripMenuItem.Click += clearDatabaseToolStripMenuItem_Click_1;
+            // 
+            // shutdownDeviceToolStripMenuItem
+            // 
+            shutdownDeviceToolStripMenuItem.Name = "shutdownDeviceToolStripMenuItem";
+            shutdownDeviceToolStripMenuItem.Size = new Size(166, 22);
+            shutdownDeviceToolStripMenuItem.Text = "Shutdown Device";
+            shutdownDeviceToolStripMenuItem.Click += shutdownDeviceToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem
             // 
@@ -390,31 +397,23 @@
             buttonSearch.UseVisualStyleBackColor = true;
             buttonSearch.Click += buttonSearch_Click;
             // 
-            // checkBoxSetDay
+            // buttonSetDate
             // 
-            checkBoxSetDay.AutoSize = true;
-            checkBoxSetDay.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxSetDay.Location = new Point(369, 49);
-            checkBoxSetDay.Name = "checkBoxSetDay";
-            checkBoxSetDay.Size = new Size(104, 21);
-            checkBoxSetDay.TabIndex = 8;
-            checkBoxSetDay.Text = "Today's date";
-            checkBoxSetDay.UseVisualStyleBackColor = true;
-            checkBoxSetDay.CheckedChanged += checkBoxSetDay_CheckedChanged;
-            // 
-            // shutdownDeviceToolStripMenuItem
-            // 
-            shutdownDeviceToolStripMenuItem.Name = "shutdownDeviceToolStripMenuItem";
-            shutdownDeviceToolStripMenuItem.Size = new Size(180, 22);
-            shutdownDeviceToolStripMenuItem.Text = "Shutdown Device";
-            shutdownDeviceToolStripMenuItem.Click += shutdownDeviceToolStripMenuItem_Click;
+            buttonSetDate.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            buttonSetDate.Location = new Point(357, 47);
+            buttonSetDate.Name = "buttonSetDate";
+            buttonSetDate.Size = new Size(111, 23);
+            buttonSetDate.TabIndex = 9;
+            buttonSetDate.Text = "Today's date";
+            buttonSetDate.UseVisualStyleBackColor = true;
+            buttonSetDate.Click += buttonSetDate_Click;
             // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(907, 1111);
-            Controls.Add(checkBoxSetDay);
+            Controls.Add(buttonSetDate);
             Controls.Add(buttonSearch);
             Controls.Add(statusStrip1);
             Controls.Add(labelEndDate);
@@ -473,7 +472,6 @@
         private ToolStripMenuItem backupDatabaseToolStripMenuItem;
         private ToolStripMenuItem clearDatabaseToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
-        private CheckBox checkBoxSetDay;
         private ToolStripMenuItem tableInfoToolStripMenuItem;
         private ToolStripMenuItem deleteRowsNth2;
         private ToolStripMenuItem deleteRowsNth3;
@@ -487,5 +485,6 @@
         public ToolStripMenuItem clearDataToolStripMenuItem;
         public ToolStripMenuItem deleteRows2ToolStripMenuItem;
         private ToolStripMenuItem shutdownDeviceToolStripMenuItem;
+        private Button buttonSetDate;
     }
 }

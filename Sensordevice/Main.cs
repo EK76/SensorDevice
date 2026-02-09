@@ -340,62 +340,6 @@ namespace Sensordevice
             listViewData.Font = new System.Drawing.Font("Segoe UI", 22f);
         }
 
-        private void dateTimePickerStartDate_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBoxSetDay_CheckedChanged(object sender, EventArgs e)
-        {
-            counterItems = 0;
-            countItems = -1;
-            currentDate = DateTime.Now.ToString("yyyy-MM-dd");
-            if (checkBoxSetDay.Checked)
-            {
-                MySqlConnection conn = new MySqlConnection(connString);
-                conn.Open();
-                checkString = "select temp, hum, datecreated from sensorlog where datecreated like '" + currentDate + "%';";
-                MySqlCommand command2 = new MySqlCommand(checkString, conn);
-                MySqlDataReader reader2 = command2.ExecuteReader();
-                while (reader2.Read())
-                {
-                    counterItems++;
-                    countItems++;
-                    if (counterItems == 1)
-                    {
-                        listViewData.Items.Clear();
-                    }
-                    listViewData.Items.Add(new ListViewItem(new string[] { reader2.GetDecimal("temp").ToString() + " °C", reader2.GetDecimal("hum").ToString() + " %", reader2.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
-                }
-                if (counterItems == 0)
-                {
-                    MessageBox.Show("The search gave no result!", "Ken's Sensor Devicecle.");
-                }
-                else
-                {
-                    deleteRowsToolStripMenuItem.Enabled = false;
-                    saveToolStripMenuItem.Enabled = true;
-                    clearDataToolStripMenuItem.Enabled = true;
-                    graphToolStripMenuItem.Enabled = listViewData.Items.Count > 1;
-                    deleteRows2ToolStripMenuItem.Enabled = listViewData.Items.Count > 6;
-                    firstItem = listViewData.Items[0].SubItems[2].Text;
-                    lastItem = listViewData.Items[countItems].SubItems[2].Text;
-                    toolStripStatusLabelLocation.Text = "Data from database.";
-                    toolStripStatusLabelRows.Text = "Numbers of rows: " + counterItems.ToString();
-                    buttonSearch.Enabled = false;
-                    dateTimePickerStartDate.Enabled = false;
-                    dateTimePickerEndDate.Enabled = false;
-                }
-                conn.Close();
-            }
-            else
-            {
-                buttonSearch.Enabled = true;
-                dateTimePickerStartDate.Enabled = true;
-                dateTimePickerEndDate.Enabled = true;
-            }
-        }
-
         private void tableInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MySqlConnection conn = new MySqlConnection(connString);
@@ -599,6 +543,48 @@ namespace Sensordevice
                 }
                 MessageBox.Show("Device is shutdown, wait a minute before disconnecting the power!");
             }
+        }
+
+        private void buttonSetDate_Click(object sender, EventArgs e)
+        {
+            counterItems = 0;
+            countItems = -1;
+            currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+            MySqlConnection conn = new MySqlConnection(connString);
+            conn.Open();
+            checkString = "select temp, hum, datecreated from sensorlog where datecreated like '" + currentDate + "%';";
+            MySqlCommand command2 = new MySqlCommand(checkString, conn);
+            MySqlDataReader reader2 = command2.ExecuteReader();
+            while (reader2.Read())
+            {
+                counterItems++;
+                countItems++;
+                if (counterItems == 1)
+                {
+                   listViewData.Items.Clear();
+                }
+                listViewData.Items.Add(new ListViewItem(new string[] { reader2.GetDecimal("temp").ToString() + " °C", reader2.GetDecimal("hum").ToString() + " %", reader2.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+            }
+            if (counterItems == 0)
+            {
+               MessageBox.Show("The search gave no result!", "Ken's Sensor Devicecle.");
+            }
+            else
+            {
+               deleteRowsToolStripMenuItem.Enabled = false;
+               saveToolStripMenuItem.Enabled = true;
+               clearDataToolStripMenuItem.Enabled = true;
+               graphToolStripMenuItem.Enabled = listViewData.Items.Count > 1;
+               deleteRows2ToolStripMenuItem.Enabled = listViewData.Items.Count > 6;
+               firstItem = listViewData.Items[0].SubItems[2].Text;
+               lastItem = listViewData.Items[countItems].SubItems[2].Text;
+               toolStripStatusLabelLocation.Text = "Data from database.";
+               toolStripStatusLabelRows.Text = "Numbers of rows: " + counterItems.ToString();
+               buttonSearch.Enabled = false;
+               dateTimePickerEndDate.Enabled = false;
+            }
+            conn.Close();
         }
     }
 }

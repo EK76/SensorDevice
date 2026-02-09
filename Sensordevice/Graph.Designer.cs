@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             copyGraphsToolStripMenuItem = new ToolStripMenuItem();
@@ -51,10 +51,13 @@
             squareToolStripMenuItem = new ToolStripMenuItem();
             starToolStripMenuItem = new ToolStripMenuItem();
             noneToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            smallToolStripMenuItem = new ToolStripMenuItem();
+            mediumToolStripMenuItem = new ToolStripMenuItem();
+            largeToolStripMenuItem = new ToolStripMenuItem();
             markerColorToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
             defaultToolStripMenuItem = new ToolStripMenuItem();
-            viewToolStripMenuItem = new ToolStripMenuItem();
-            detailsToolStripMenuItem = new ToolStripMenuItem();
             panelInfo = new Panel();
             labelInfo = new Label();
             labelMax = new Label();
@@ -77,7 +80,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(2904, 24);
@@ -142,7 +145,7 @@
             // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { markerPointToolStripMenuItem, markerColorToolStripMenuItem, defaultToolStripMenuItem });
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { markerPointToolStripMenuItem, toolStripMenuItem1, markerColorToolStripMenuItem, toolStripSeparator1, defaultToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.Size = new Size(39, 20);
             editToolStripMenuItem.Text = "Edit";
@@ -151,7 +154,7 @@
             // 
             markerPointToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { circleToolStripMenuItem, triangleToolStripMenuItem, squareToolStripMenuItem, starToolStripMenuItem, noneToolStripMenuItem });
             markerPointToolStripMenuItem.Name = "markerPointToolStripMenuItem";
-            markerPointToolStripMenuItem.Size = new Size(143, 22);
+            markerPointToolStripMenuItem.Size = new Size(180, 22);
             markerPointToolStripMenuItem.Text = "Marker Point";
             // 
             // circleToolStripMenuItem
@@ -190,35 +193,54 @@
             noneToolStripMenuItem.Size = new Size(116, 22);
             noneToolStripMenuItem.Text = "None";
             // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { smallToolStripMenuItem, mediumToolStripMenuItem, largeToolStripMenuItem });
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(180, 22);
+            toolStripMenuItem1.Text = "Marker Line Size";
+            // 
+            // smallToolStripMenuItem
+            // 
+            smallToolStripMenuItem.Checked = true;
+            smallToolStripMenuItem.CheckState = CheckState.Checked;
+            smallToolStripMenuItem.Name = "smallToolStripMenuItem";
+            smallToolStripMenuItem.Size = new Size(119, 22);
+            smallToolStripMenuItem.Text = "Small";
+            smallToolStripMenuItem.Click += smallToolStripMenuItem_Click;
+            // 
+            // mediumToolStripMenuItem
+            // 
+            mediumToolStripMenuItem.Name = "mediumToolStripMenuItem";
+            mediumToolStripMenuItem.Size = new Size(119, 22);
+            mediumToolStripMenuItem.Text = "Medium";
+            mediumToolStripMenuItem.Click += mediumToolStripMenuItem_Click;
+            // 
+            // largeToolStripMenuItem
+            // 
+            largeToolStripMenuItem.Name = "largeToolStripMenuItem";
+            largeToolStripMenuItem.Size = new Size(119, 22);
+            largeToolStripMenuItem.Text = "Large";
+            largeToolStripMenuItem.Click += largeToolStripMenuItem_Click;
+            // 
             // markerColorToolStripMenuItem
             // 
             markerColorToolStripMenuItem.Name = "markerColorToolStripMenuItem";
-            markerColorToolStripMenuItem.Size = new Size(143, 22);
+            markerColorToolStripMenuItem.Size = new Size(180, 22);
             markerColorToolStripMenuItem.Text = "Marker Color";
             markerColorToolStripMenuItem.Click += markerColorToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // defaultToolStripMenuItem
             // 
             defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            defaultToolStripMenuItem.Size = new Size(143, 22);
+            defaultToolStripMenuItem.Size = new Size(180, 22);
             defaultToolStripMenuItem.Text = "Default";
             defaultToolStripMenuItem.Click += defaultToolStripMenuItem_Click;
-            // 
-            // viewToolStripMenuItem
-            // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { detailsToolStripMenuItem });
-            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            viewToolStripMenuItem.Size = new Size(44, 20);
-            viewToolStripMenuItem.Text = "View";
-            // 
-            // detailsToolStripMenuItem
-            // 
-            detailsToolStripMenuItem.Checked = true;
-            detailsToolStripMenuItem.CheckState = CheckState.Checked;
-            detailsToolStripMenuItem.Name = "detailsToolStripMenuItem";
-            detailsToolStripMenuItem.Size = new Size(109, 22);
-            detailsToolStripMenuItem.Text = "Details";
-            detailsToolStripMenuItem.Click += detailsToolStripMenuItem_Click;
             // 
             // panelInfo
             // 
@@ -295,23 +317,23 @@
             // 
             // chartTemp
             // 
-            chartArea1.AxisY.Minimum = 1D;
-            chartArea1.Name = "ChartArea1";
-            chartTemp.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            chartTemp.Legends.Add(legend1);
+            chartArea3.AxisY.Minimum = 1D;
+            chartArea3.Name = "ChartArea1";
+            chartTemp.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            chartTemp.Legends.Add(legend3);
             chartTemp.Location = new Point(12, 27);
             chartTemp.Name = "chartTemp";
-            series1.BorderWidth = 2;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Color = Color.Black;
-            series1.Legend = "Legend1";
-            series1.MarkerColor = Color.Black;
-            series1.MarkerSize = 16;
-            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series1.Name = "Series1";
-            chartTemp.Series.Add(series1);
+            series3.BorderWidth = 2;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Color = Color.Black;
+            series3.Legend = "Legend1";
+            series3.MarkerColor = Color.Black;
+            series3.MarkerSize = 10;
+            series3.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series3.Name = "Series1";
+            chartTemp.Series.Add(series3);
             chartTemp.Size = new Size(1248, 1100);
             chartTemp.TabIndex = 2;
             chartTemp.Text = "chart1";
@@ -319,22 +341,22 @@
             // 
             // chartHum
             // 
-            chartArea2.Name = "ChartArea1";
-            chartHum.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            chartHum.Legends.Add(legend2);
+            chartArea4.Name = "ChartArea1";
+            chartHum.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            chartHum.Legends.Add(legend4);
             chartHum.Location = new Point(1293, 27);
             chartHum.Name = "chartHum";
-            series2.BorderWidth = 2;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series2.Color = Color.Black;
-            series2.Legend = "Legend1";
-            series2.MarkerColor = Color.Black;
-            series2.MarkerSize = 16;
-            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series2.Name = "Series1";
-            chartHum.Series.Add(series2);
+            series4.BorderWidth = 2;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Color = Color.Black;
+            series4.Legend = "Legend1";
+            series4.MarkerColor = Color.Black;
+            series4.MarkerSize = 10;
+            series4.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series4.Name = "Series1";
+            chartHum.Series.Add(series4);
             chartHum.Size = new Size(1248, 1100);
             chartHum.TabIndex = 3;
             chartHum.Text = "chart2";
@@ -348,7 +370,7 @@
             trackBarMarkerSize.Name = "trackBarMarkerSize";
             trackBarMarkerSize.Size = new Size(281, 45);
             trackBarMarkerSize.TabIndex = 4;
-            trackBarMarkerSize.Value = 12;
+            trackBarMarkerSize.Value = 10;
             trackBarMarkerSize.Scroll += trackBarMarkerSize_Scroll;
             trackBarMarkerSize.MouseHover += trackBarMarkerSize_MouseHover;
             trackBarMarkerSize.MouseMove += trackBarMarkerSize_MouseMove;
@@ -359,9 +381,9 @@
             labelTrackSize.Font = new Font("Segoe UI", 12F);
             labelTrackSize.Location = new Point(2580, 1102);
             labelTrackSize.Name = "labelTrackSize";
-            labelTrackSize.Size = new Size(119, 21);
+            labelTrackSize.Size = new Size(115, 21);
             labelTrackSize.TabIndex = 5;
-            labelTrackSize.Text = "Set marker size.";
+            labelTrackSize.Text = "Marker size: 10";
             // 
             // FormGraph
             // 
@@ -414,8 +436,6 @@
         private ToolStripMenuItem markerPointToolStripMenuItem;
         private ToolStripMenuItem circleToolStripMenuItem;
         private ToolStripMenuItem triangleToolStripMenuItem;
-        private ToolStripMenuItem viewToolStripMenuItem;
-        private ToolStripMenuItem detailsToolStripMenuItem;
         private ToolStripMenuItem squareToolStripMenuItem;
         private ToolStripMenuItem starToolStripMenuItem;
         private ToolStripMenuItem markerColorToolStripMenuItem;
@@ -429,5 +449,10 @@
         private TrackBar trackBarMarkerSize;
         private Label labelTrackSize;
         private ToolTip toolTipTrackSize;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem smallToolStripMenuItem;
+        private ToolStripMenuItem mediumToolStripMenuItem;
+        private ToolStripMenuItem largeToolStripMenuItem;
     }
 }
