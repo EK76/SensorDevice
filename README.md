@@ -1,7 +1,7 @@
 # Sensor Device
 
 The goal with this project was to build a simple weather application (Ken's Sensor Device) created by Visual Studio 2022 C# which reads the content from MySQL table containing temperature and humitidy values, which are
-obtained from Raspberry PI 5 device with a help of DHT22 sensor. The DHT22 sensor reads temperature and humitidy values. Another goal was that you could use this device to any network of your choosing. Python was used for storing values 
+obtained from Raspberry PI 5 device with a help of DHT22 sensor. Another goal was that you could use this device to any network of your choosing. Python was used for storing values 
 from DHT22 sensor to MySQL table. The Pyhton program is included to this project under the Pyhton folder. It was also made possible to read the contents from the MySQL table trough a web browser. 
 For this I use the Apache as a webserver which was installed on the device. The operating system of the device is Debian GNU/Linux 13 (trixie).
 
