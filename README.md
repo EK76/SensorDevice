@@ -97,7 +97,6 @@ I have also installed two external plugins trough Visual Studio NuGet Package Ma
 **Picture for web solution.**
 
 <img width="1688" height="1173" alt="Screenshot 2026-01-22 170427" src="https://github.com/user-attachments/assets/78193762-318c-47c7-bcf5-9862c565e045" />
-
-**How to clone this repository with git.**
-https://github.com/EK76/SensorDevice.git<br/>
+<br/>
+You can clone this repository with git by using https://github.com/EK76/SensorDevice.git<br/>
 If you discover any fault or inaccurate information, feel free to contact me trough epost address: ken.ekholm@live.com
