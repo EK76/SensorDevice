@@ -30,11 +30,18 @@ For my php script I used the PHP version. 8.4.16.
 To the show result as diagram I used [Google Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery).
 In my case I named my Raspberry PI 5 to sensordevice. It means that I can for example in this case read the contents of MySQL table with this url, *http://sensordevice*.
 
-**Schema.**
-
 I have also added 16x2 display with I2C interface and switch button with indicator led to the deivce. 
 The display show date and time and data from sensor alternately after same delay. The switch button's purpose is to turn off the sensor if you only wan't look at sensor data stored to a MySQL table
 and not store any data. 
+
+**List over the hardware for this project.**
+- Raspberry Pi 5
+- DHT22 sensor
+- 16x2 display with I2C interface
+- RGB led
+- Pushbutton
+
+**Schema.**
 
 <img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" /><br />
 Sensor DHT22's signal is connected to Rasepberry PI 5's pin 12 (GPIO 18) where it reads the temperature and humitidy from sensor.
