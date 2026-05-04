@@ -1,17 +1,16 @@
 # Sensor Device
 
-The goal with this project was to build a simple weather application (Ken's Sensor Device) created by Visual Studio 2022 C# which reads the content from MySQL table containing temperature and humitidy values, which are
-obtained from Raspberry PI 5 device with a help of DHT22 sensor. Another goal was that you could use this device to any network of your choosing. Python was used for storing values 
-from DHT22 sensor to MySQL table. The Pyhton program is included to this project under the Pyhton folder. It was also made possible to read the contents from the MySQL table trough a web browser. 
-For this I use the Apache as a webserver which was installed on the device. The operating system of the device is Debian GNU/Linux 13 (trixie). I used python version 3.13.5 and Apache version 2.4.66 
-for this project.
+The goal with this project was to build a simple weather application created by Visual Studio 2022 C# which reads the content from MySQL table containing temperature and humitidy values, which are
+obtained from Raspberry PI 5 device with a help of DHT22 sensor. Another goal was that you could move this device to any network of your choosing. Python was used for storing values 
+from DHT22 sensor to MySQL table. The Pyhton program is included to under the Pyhton folder within this project. It was also made possible to read the contents from the MySQL table trough a web browser. 
+For this I use the Apache version 2.4.66 as a webserver which was installed on the device. The operating system of the device is Debian GNU/Linux 13 (trixie). I used python version 3.13.5 for this project.
 
-#### Requirements for this Visual Studio C# project.
+#### Requirements for the Visual Studio C# project.
 - .NET 9.0
 -  C# language version 13.0
 
-The device can be connected to any network long as DCHP is enabled and with wire connection.
-If you want to use Wifi instead of wire, you can use the scp command to transfer addwifi script to the device. 
+The device can be connected to any network long as DCHP is enabled and with a wire connection.
+If you want to use Wifi instead of wire, you can use the scp command to transfer addwifi bash script to the device. 
 The addwifi script file is included with this project under System folder.
 
 Sensor Device application work only with computers that run under Windows 11 operating system. 
@@ -21,17 +20,16 @@ and display the contents to web browser trough the Apache webserver. PHP files a
 For my php script I used the PHP version. 8.4.16.
 
 **Homepage folder's content.**
-
 - index.php -> Where the result of sensor data is shown from MySQL table.
 - files.php -> Where files are stored as cvs format with selected data exported from the MySQL table.
 - config.php -> Where the database configuration is stored.
 - style.css -> Where the design of the homepages is configured.
 
 To the show result as diagram I used [Google Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery).
-In my case I named my Raspberry PI 5 to sensordevice. It means that I can for example in this case read the contents of MySQL table with this url, *http://sensordevice*.
+In my case I named my Raspberry PI 5 to sensordevice. It means in this case I can use the webbrowser version with this url, *http://sensordevice*.
 
-I have also added 16x2 display with I2C interface and switch button with indicator led to the deivce. 
-The display show date and time and data from sensor alternately after same delay. The switch button's purpose is to turn off the sensor if you only wan't look at sensor data stored to a MySQL table
+I have also added 16x2 display with I2C interface and switch button with "indicator" led to the deivce. 
+The display show date and time and data from sensor regularly after same delay. The switch button's purpose is to turn off the sensor if you only wan't look at stored sensor data stored
 and not store any data. 
 
 **List over the hardware for this project.**
@@ -46,7 +44,7 @@ and not store any data.
 <img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" /><br />
 Sensor DHT22's signal is connected to Rasepberry PI 5's pin 12 (GPIO 18) where it reads the temperature and humitidy from sensor.
 Operating voltage is 3.3V - 5.5V for the DHT 22 sensor. The switch button that turn sensor on/off is conected to pin 31 (GPIO6) and the indicator led
-is connected to pin 33 (GPIO 13). Display I2C interface is connected trough SDA and SCL on both I2C interface and Raspberry PI 5 device. The display'
+is connected to pin 33 (GPIO 13). Display I2C interface is connected trough SDA and SCL on both I2C interface and Raspberry PI 5 device. The display's
 operating voltage is 5V. SDA ans SCL are found at pin 3 (GPIO2) and pin 5 (GPIO3) on Raspberry PI 5 device.
 
 <img width="348" height="295" alt="image" src="https://github.com/user-attachments/assets/eeeafe8d-5864-4a19-a55e-c85f11f0b5e5" /><br />
@@ -58,7 +56,7 @@ operating voltage is 5V. SDA ans SCL are found at pin 3 (GPIO2) and pin 5 (GPIO3
 ##### 16x2 Display with I2C interface pinout.<br /><br />
 
 Both the display and switch button are just additional functions, you can manage without them.
-The code for display, switch button and indicator led functions are found in the same pyhton program, where sensor device stores it's data to MySQL table.
+The code for display, switch button and indicator led functions are found in the same pyhton script, where sensor device stores it's data to MySQL table.
 
 In order to use both Sensor Device application and web version, you must create following database and table according to the directive below.
 MySQL have been chosen as database language for this project.
