@@ -14,12 +14,13 @@ import time
 import atexit
 import subprocess
 import signal
+import os
 
 def disabledevice():
-    greenled.off()
-    redled.off()
-    sensorlcd.lcd_display_string("    DEVICE      ", 1)
-    sensorlcd.lcd_display_string("    SHUTDOWNED.  ", 2)
+   greenled.off()
+   redled.off()
+   sensorlcd.lcd_display_string("    DEVICE      ", 1)
+   sensorlcd.lcd_display_string("    SHUTDOWNED.  ", 2)
 
 sensor =  adafruit_dht.DHT22(board.D18)
 redled = LED(13) 
@@ -29,10 +30,9 @@ button = Button(6,pull_up = True,bounce_time= None)
 config = {
   'host':'localhost',
   'user':'loguser',
-  'password':'Test0880!',
+  'password':os.getenv("sqlpass"),
   'database':'sensorinfo'
 }
-
 
 try:
     greenled.on()
