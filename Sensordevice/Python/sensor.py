@@ -22,22 +22,37 @@ def disabledevice():
    sensorlcd.lcd_display_string("    DEVICE      ", 1)
    sensorlcd.lcd_display_string("    SHUTDOWNED.  ", 2)
 
+checked = True
+
+def sensorStatus():
+    global checked
+    if checked == True:
+      checked = False
+      sensorlcd.lcd_clear()
+      sensorlcd.lcd_display_string("    SENSOR", 1)
+      sensorlcd.lcd_display_string("    DISABLED", 2)
+    else:
+      checked = True
+      sensorlcd.lcd_clear()
+      sensorlcd.lcd_display_string("    SENSOR", 1)
+      sensorlcd.lcd_display_string("    ENABLED", 2)
+
 sensor =  adafruit_dht.DHT22(board.D18)
 redled = LED(13) 
 greenled = LED(26)
-button = Button(6,pull_up = True,bounce_time= None) 
+button = Button(6,pull_up = True,bounce_time= 0.2) 
 
 config = {
   'host':'localhost',
   'user':'loguser',
-  'password':os.getenv("sqlpass"),
+ #'password':os.getenv("sqlpass"),
+  'password':'Test0880!',
   'database':'sensorinfo'
 }
 
 try:
     greenled.on()
     redled.off()
-    checked = True
     counter=0
     lcdcounter=0
     connection = mysql.connector.connect(**config)
@@ -51,6 +66,7 @@ try:
        print("You're connected to database: ", record)
        temperature = sensor.temperature
        humidity = sensor.humidity
+       sleep(2)
        sensorlcd = I2C_LCD_driver.lcd()
        if humidity is not None and temperature is not None and counter == 1800:
             temperature = sensor.temperature
@@ -84,19 +100,9 @@ try:
                lcdcounter = 0
             lcdcounter+=1
        
-            if button.is_pressed:
-               print ("Checked: ", checked)
-               if checked == True:
-                  checked = False
-                  sensorlcd.lcd_clear()
-                  sensorlcd.lcd_display_string("    SENSOR", 1)
-                  sensorlcd.lcd_display_string("    DISABLED", 2)
-               else:
-                  checked = True
-                  sensorlcd.lcd_clear()
-                  sensorlcd.lcd_display_string("    SENSOR", 1)
-                  sensorlcd.lcd_display_string("    ENABLED", 2)
-                  sleep(0.5)
+            button.when_released = sensorStatus
+            print ("Checked: ", checked)
+            sleep(0.5)
             if checked == True:  
                greenled.on()
                redled.off()  
@@ -115,6 +121,7 @@ try:
                   print("Record inserted successfully into table weatherdata", temperature, " ", humidity)
                   cursor.close()
                   counter = 0
+               print("LED ON!")   
             else:
                greenled.off()  
                redled.on()  
@@ -129,6 +136,7 @@ except KeyboardInterrupt:
     GPIO.cleanup()
 
 finally:
-    if (connection.is_connected()):
+    if connection.is_connected():
         connection.close()
         print("MySQL connection is closed")
+
