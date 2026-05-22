@@ -50,8 +50,8 @@ operating voltage is 5V. SDA ans SCL are found at pin 3 (GPIO2) and pin 5 (GPIO3
 <img width="348" height="295" alt="image" src="https://github.com/user-attachments/assets/eeeafe8d-5864-4a19-a55e-c85f11f0b5e5" /><br />
 ##### Sensor DHT22 pinout.<br /><br />
 
-<img align = "center" width="440" height="440" alt="Screenshot 2026-01-22 165314" src="https://github.com/user-attachments/assets/a9b74c83-123a-4e8d-a711-09a4090bf946" />
-<img align = "center" width="440" height="440" alt="Screenshot 2026-01-22 165301" src="https://github.com/user-attachments/assets/facb06a2-db7d-4862-a273-17ec6a50d3d8" /><br />
+<img align = "center" width="320" height="180" alt="Screenshot 2026-01-22 165314" src="https://github.com/user-attachments/assets/a9b74c83-123a-4e8d-a711-09a4090bf946" />
+<img align = "center" width="320" height="180" alt="Screenshot 2026-01-22 165301" src="https://github.com/user-attachments/assets/facb06a2-db7d-4862-a273-17ec6a50d3d8" /><br />
 
 ##### 16x2 Display with I2C interface pinout.<br /><br />
 
