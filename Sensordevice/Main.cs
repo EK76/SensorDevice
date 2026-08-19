@@ -1,9 +1,11 @@
+using CameraDevice;
 using Google.Protobuf;
+using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.ApplicationServices;
 using MySql.Data.MySqlClient;
 using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using MySqlX.XDevAPI;
-using ReadTemp;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using secInfo;
@@ -13,6 +15,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Sensordevice
 {
@@ -31,8 +34,8 @@ namespace Sensordevice
         string newStartDate, newEndDate, passwordString, currentDate, setDate;
         string showStartDate, showEndDate;
         DateTime startDate, endDate, setDate2;
-        int countItems, counterItems, showNumbers, number;
-        bool checkFile = true;
+        int countItems, counterItems, showNumbers, number, delayValue, rowsValue;
+        bool checkFile = true, checkOnce = true;
         string user = "sensoruser";
         string password;
         string host = "sensordevice";
@@ -282,6 +285,18 @@ namespace Sensordevice
             DateTime currentDate2 = DateTime.ParseExact(currentDate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             dateTimePickerStartDate.MaxDate = currentDate2;
             dateTimePickerEndDate.MaxDate = currentDate2;
+
+            MySqlConnection conn = new MySqlConnection(connString);
+            conn.Open();
+            checkString = "select * from settings where id =1;";
+            MySqlCommand command = new MySqlCommand(checkString, conn);
+            MySqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            rowsValue = reader.GetInt32("numberofrows");
+            delayValue = reader.GetInt32("delay");
+            conn.Close();
+            logNumberToolStripComboBox.Text = rowsValue.ToString();
+            delayValueToolStripTextBox.Text = delayValue.ToString();
         }
 
 
@@ -502,14 +517,6 @@ namespace Sensordevice
             FormConfirm confirm = new FormConfirm();
             confirm.ShowDialog();
         }
-
-        private void hardwareInfoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            FormTechnicalInfo hardware = new FormTechnicalInfo();
-            hardware.ShowDialog();
-        }
-
         private void FormMain_Activated(object sender, EventArgs e)
         {
             if (confirmed == true)
@@ -562,29 +569,97 @@ namespace Sensordevice
                 countItems++;
                 if (counterItems == 1)
                 {
-                   listViewData.Items.Clear();
+                    listViewData.Items.Clear();
                 }
                 listViewData.Items.Add(new ListViewItem(new string[] { reader2.GetDecimal("temp").ToString() + " °C", reader2.GetDecimal("hum").ToString() + " %", reader2.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
             }
             if (counterItems == 0)
             {
-               MessageBox.Show("The search gave no result!", "Ken's Sensor Devicecle.");
+                MessageBox.Show("The search gave no result!", "Ken's Sensor Devicecle.");
             }
             else
             {
-               deleteRowsToolStripMenuItem.Enabled = false;
-               saveToolStripMenuItem.Enabled = true;
-               clearDataToolStripMenuItem.Enabled = true;
-               graphToolStripMenuItem.Enabled = listViewData.Items.Count > 1;
-               deleteRows2ToolStripMenuItem.Enabled = listViewData.Items.Count > 6;
-               firstItem = listViewData.Items[0].SubItems[2].Text;
-               lastItem = listViewData.Items[countItems].SubItems[2].Text;
-               toolStripStatusLabelLocation.Text = "Data from database.";
-               toolStripStatusLabelRows.Text = "Numbers of rows: " + counterItems.ToString();
-               buttonSearch.Enabled = false;
-               dateTimePickerEndDate.Enabled = false;
+                deleteRowsToolStripMenuItem.Enabled = false;
+                saveToolStripMenuItem.Enabled = true;
+                clearDataToolStripMenuItem.Enabled = true;
+                graphToolStripMenuItem.Enabled = listViewData.Items.Count > 1;
+                deleteRows2ToolStripMenuItem.Enabled = listViewData.Items.Count > 6;
+                firstItem = listViewData.Items[0].SubItems[2].Text;
+                lastItem = listViewData.Items[countItems].SubItems[2].Text;
+                toolStripStatusLabelLocation.Text = "Data from database.";
+                toolStripStatusLabelRows.Text = "Numbers of rows: " + counterItems.ToString();
+                buttonSearch.Enabled = false;
+                dateTimePickerEndDate.Enabled = false;
             }
             conn.Close();
+        }
+        private void delayValueToolStripTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+            if (checkOnce == false)
+            {
+                if (Int32.TryParse(delayValueToolStripTextBox.Text, out delayValue))
+                {
+                    MySqlConnection conn = new MySqlConnection(connString);
+                    conn.Open();
+                    checkString = "update settings set delay = '" + delayValue + "' where id =1;";
+                    MySqlCommand command = new MySqlCommand(checkString, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    reader.Read();
+                    conn.Close();
+
+                    conn.Open();
+                    checkString = "insert into loginfo(logtext) values('Settings were updated.');";
+                    Clipboard.SetText(checkString);
+                    MySqlCommand command2 = new MySqlCommand(checkString, conn);
+                    MySqlDataReader reader2 = command2.ExecuteReader();
+                    reader2.Read();
+                    conn.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid number");
+                    delayValueToolStripTextBox.Text = delayValue.ToString();
+                }
+            }
+        }
+
+        private void logsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormLogs logView = new FormLogs();
+            logView.ShowDialog();
+        }
+
+        private void logNumberToolStripComboBox_TextChanged(object sender, EventArgs e)
+        {
+            if (checkOnce == false)
+            {
+                rowsValue = Convert.ToInt32(logNumberToolStripComboBox.Text);
+                MySqlConnection conn = new MySqlConnection(connString);
+                conn.Open();
+                checkString = "update settings set numberofrows = '" + rowsValue + "' where id = 1;";
+                MySqlCommand command = new MySqlCommand(checkString, conn);
+                MySqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                conn.Close();
+
+                conn.Open();
+                checkString = "insert into loginfo(logtext) values('Settings were updated.');";
+                MySqlCommand command2 = new MySqlCommand(checkString, conn);
+                MySqlDataReader reader2 = command2.ExecuteReader();
+                reader2.Read();
+                conn.Close();
+            }
+        }
+
+        private void delayValueToolStripTextBox_Leave(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkOnce = false;
         }
     }
 }

@@ -9,11 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EcoCore" Version="7.2.0.17148" />
-    <PackageReference Include="MySql.Data" Version="9.5.0" />
-    <PackageReference Include="MySqlBackup.NET" Version="2.6.5" />
-    <PackageReference Include="SSH.NET" Version="2025.1.0" />
-    <PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />
+    <Compile Remove="Form1.cs" />
+    <Compile Remove="Form1.Designer.cs" />
+    <Compile Remove="Technicalinfo.cs" />
+    <Compile Remove="Technicalinfo.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Form1.resx" />
+    <EmbeddedResource Remove="Technicalinfo.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EcoCore" Version="7.2.0.17492" />
+    <PackageReference Include="MySql.Data" Version="26.7.0" />
+    <PackageReference Include="MySqlBackup.NET" Version="2.7.1" />
+    <PackageReference Include="SSH.NET" Version="2026.0.0" />
+    <PackageReference Include="WinForms.DataVisualization" Version="1.10.2" />
   </ItemGroup>
 
   <ItemGroup>

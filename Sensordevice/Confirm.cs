@@ -50,5 +50,10 @@ namespace Sensordevice
             MessageBox.Show("Sensorlog table have been emptied!");
             Close();
         }
+
+        private void FormConfirm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

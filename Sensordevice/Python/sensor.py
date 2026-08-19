@@ -5,11 +5,11 @@ from gpiozero import LED, Button
 import mysql.connector, sys, Adafruit_DHT, datetime, time
 from mysql.connector import Error
 from mysql.connector import errorcode
+from RPLCD.i2c import CharLCD
 from time import *
 import RPi.GPIO as GPIO
 import board
 import adafruit_dht
-import I2C_LCD_driver
 import time
 import atexit
 import subprocess
@@ -19,13 +19,47 @@ import os
 def disabledevice():
    greenled.off()
    redled.off()
-   sensorlcd.lcd_display_string("    DEVICE      ", 1)
-   sensorlcd.lcd_display_string("    SHUTDOWNED.  ", 2)
+   sensorlcd.backlight_enabled = False
+   sensorlcd.close(clear=True)
 
-sensor =  adafruit_dht.DHT22(board.D18)
+def stopall():
+   greenled.off()
+   redled.off()
+   sensorlcd.backlight_enabled = False
+   sensorlcd.close(clear=True)
+
+checked = True
+
+def sensorStatus():
+    global checked
+    if checked == True:
+      checked = False
+      sensorlcd.clear()
+      sensorlcd.write_string("    SENSOR")
+      sensorlcd.crlf()
+      sensorlcd.write_string("    DISABLED")
+      mysql_insert_query = """INSERT INTO loginfo(logtext) VALUES ('Sensor disabled.')"""
+      cursor = connection.cursor()
+      cursor.execute(mysql_insert_query)
+      connection.commit()
+    else:
+      checked = True
+      sensorlcd.clear()
+      sensorlcd.write_string("    SENSOR")
+      sensorlcd.crlf()
+      sensorlcd.write_string("    ENABLED")
+      mysql_insert_query = """INSERT INTO loginfo(logtext) VALUES ('Sensor enabled.')"""
+      cursor = connection.cursor()
+      cursor.execute(mysql_insert_query)
+      connection.commit()
+
+sensor = adafruit_dht.DHT22(board.D18)
 redled = LED(13) 
 greenled = LED(26)
-button = Button(6,pull_up = True,bounce_time= None) 
+
+redled2 = LED(17)
+greenled2 = LED(27)
+button = Button(6,pull_up = True,bounce_time= 0.2) 
 
 config = {
   'host':'localhost',
@@ -37,9 +71,11 @@ config = {
 try:
     greenled.on()
     redled.off()
-    checked = True
+    greenled2.on()
+    redled2.off()
     counter=0
     lcdcounter=0
+    sensorlcd = CharLCD('PCF8574', 0x27, cols=16, rows=2)
     connection = mysql.connector.connect(**config)
     if connection.is_connected():
        db_Info = connection.get_server_info()
@@ -49,10 +85,17 @@ try:
        record = cursor.fetchone()
        cursor.close()
        print("You're connected to database: ", record)
-       temperature = sensor.temperature
-       humidity = sensor.humidity
-       sensorlcd = I2C_LCD_driver.lcd()
-       if humidity is not None and temperature is not None and counter == 1800:
+       sleep(2)
+
+       mysql_insert_query = """INSERT INTO loginfo(logtext) VALUES ('Sensor device started.')"""
+       cursor = connection.cursor()
+       cursor.execute(mysql_insert_query)
+       connection.commit()
+       sensorlcd.write_string("Date: "+ "%s" %time.strftime("%d.%m.%Y") + "Time:" + " %s" %time.strftime("%H:%M"))
+
+
+       try:
+            errorlog1 = True
             temperature = sensor.temperature
             humidity = sensor.humidity
             temperature=(round(temperature,2))
@@ -63,64 +106,111 @@ try:
             cursor.execute(mysql_insert_query, record)
             connection.commit()
             print("Record inserted successfully into table weatherdata", temperature, " ", humidity)
-            cursor.close()                  
-       sensorlcd.lcd_display_string("Date: %s" %time.strftime("%d.%m.%Y"), 1)
-       sensorlcd.lcd_display_string("Time: %s" %time.strftime("%H:%M:%S"), 2)
+            cursor.close()   
+       except RuntimeError as error:
+            if errorlog1 == True:
+              mysql_insert_query = """INSERT INTO loginfo(logtext) VALUES ('Sensor malfunction.')"""
+              cursor = connection.cursor()
+              cursor.execute(mysql_insert_query)
+              connection.commit()
+              print("Record not inserted successfully into table weatherdata")
+              cursor.close()
+              errorlog1 = False
+     
 
+
+       query = "select delay from settings where id=1"
+       cursor = connection.cursor()
+       cursor.execute(query)
+       row = cursor.fetchone()
+       delay = row[0]
+       delay = delay * 60
+       connection.commit()
+ 
        while True:
             if lcdcounter == 10:
-               temperature = sensor.temperature
-               humidity = sensor.humidity
-               temperature=(round(temperature,2))
-               humidity=(round(humidity,4))
-               sensorlcd.lcd_clear()
-               sensorlcd.lcd_display_string("Temp: %.1f%s"% (temperature, chr(32)) +  chr(176) +"C", 1)
-               sensorlcd.lcd_display_string("Humitidy: %.1f%s"% (humidity, chr(32)) + "%", 2)
-
+               try:   
+                 errorlog2 = True
+                 temperature = sensor.temperature
+                 humidity = sensor.humidity
+                 temperature=(round(temperature,2))
+                 humidity=(round(humidity,4))
+                 sensorlcd.clear()
+                 sensorlcd.write_string("TEMP: "+str(temperature)+"C")
+                 sensorlcd.crlf()
+                 sensorlcd.write_string("HUMIDITY: "+str(humidity)+"%")
+                 greenled2.on()
+                 redled2.off()
+               except RuntimeError as error:
+                 if errorlog2 == True:
+                    sensorlcd.clear()
+                    sensorlcd.write_string("SENSOR   ")
+                    sensorlcd.crlf()
+                    sensorlcd.write_string("MAILFUNCTION    ") 
+                    print("Error: ", error.args[0])
+                    print("Error2: ", temperature, " ",humidity)
+                    greenled2.off()
+                    redled2.on()
+                    errorlog2 = False
             if lcdcounter == 30:
-               sensorlcd.lcd_clear()
-               sensorlcd.lcd_display_string("Date: %s" %time.strftime("%d.%m.%Y"), 1)
-               sensorlcd.lcd_display_string("Time: %s" %time.strftime("%H:%M:%S"), 2)
+               sensorlcd.clear()
+               sensorlcd.write_string("Date: "+ "%s" %time.strftime("%d.%m.%Y") + "Time:" + " %s" %time.strftime("%H:%M"))
                lcdcounter = 0
             lcdcounter+=1
        
-            if button.is_pressed:
-               print ("Checked: ", checked)
-               if checked == True:
-                  checked = False
-                  sensorlcd.lcd_clear()
-                  sensorlcd.lcd_display_string("    SENSOR", 1)
-                  sensorlcd.lcd_display_string("    DISABLED", 2)
-               else:
-                  checked = True
-                  sensorlcd.lcd_clear()
-                  sensorlcd.lcd_display_string("    SENSOR", 1)
-                  sensorlcd.lcd_display_string("    ENABLED", 2)
-                  sleep(0.5)
+            button.when_released = sensorStatus
+            sleep(1)
             if checked == True:  
                greenled.on()
                redled.off()  
                counter+=1
                print("Counter:", counter)
-               if humidity is not None and temperature is not None and counter == 1800:
-                  temperature = sensor.temperature
-                  humidity = sensor.humidity
-                  temperature=(round(temperature,2))
-                  humidity=(round(humidity,4))
-                  mysql_insert_query = """INSERT INTO sensorlog(temp, hum) VALUES ('%s','%s')"""
-                  cursor = connection.cursor()
-                  record = (temperature, humidity)
-                  cursor.execute(mysql_insert_query, record)
-                  connection.commit()
-                  print("Record inserted successfully into table weatherdata", temperature, " ", humidity)
-                  cursor.close()
+               if counter == delay:
+                  try:
+                    errorlog3 = True
+                    temperature = sensor.temperature
+                    humidity = sensor.humidity
+                    temperature=(round(temperature,2))
+                    humidity=(round(humidity,4))
+                    mysql_insert_query = """INSERT INTO sensorlog(temp, hum) VALUES ('%s','%s')"""
+                    cursor = connection.cursor()
+                    record = (temperature, humidity)
+                    cursor.execute(mysql_insert_query, record)
+                    connection.commit()
+                    print("Record inserted successfully into table weatherdata", temperature, " ", humidity)
+                    cursor.close()
+
+                    greenled2.on()
+                    redled2.off()
+                #    sensorlcd.clear()
+                #    sensorlcd.write_string("TEMP: "+str(temperature)+"C")
+                #    sensorlcd.crlf()
+                 #   sensorlcd.write_string("HUMIDITY: "+str(humidity)+"%")
+                  except RuntimeError as error:
+                     if errorlog3 == True:
+                       mysql_insert_query = """INSERT INTO loginfo(logtext) VALUES ('Sensor malfunction.')"""
+                       cursor = connection.cursor()
+                       cursor.execute(mysql_insert_query)
+                       connection.commit()
+                       cursor.close()
+                       print("Error2: ", temperature, " ",humidity)
+                       errorlog3 = False
+                     greenled2.off()
+                     redled2.on()
+                     sensorlcd.clear()
+                     sensorlcd.write_string("SENSOR   ")
+                     sensorlcd.crlf()
+                     sensorlcd.write_string("MAILFUNCTION    ") 
+                     cursor.close()
                   counter = 0
+               print("LED ON!")   
             else:
                greenled.off()  
                redled.on()  
                print("LED OFF!")
             sleep(1)
             atexit.register(disabledevice)
+            signal.signal(signal.SIGTERM,stopall)
 except mysql.connector.Error as error:
     print("Failed to insert record into table {}".format(error))
 
@@ -129,6 +219,7 @@ except KeyboardInterrupt:
     GPIO.cleanup()
 
 finally:
-    if (connection.is_connected()):
+    if connection.is_connected():
         connection.close()
-        print("MySQL connection is closed")
+        print("MySQL connection is closed.")
+

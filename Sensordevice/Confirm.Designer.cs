@@ -102,7 +102,8 @@
             MinimizeBox = false;
             Name = "FormConfirm";
             ShowIcon = false;
-            Text = "Ken's Sensor Device";
+            Text = "Sensor Device";
+            Load += FormConfirm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
