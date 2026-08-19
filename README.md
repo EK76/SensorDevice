@@ -36,29 +36,90 @@ and not store any data.
 - Raspberry Pi 5
 - DHT22 sensor
 - 16x2 display with I2C interface
-- RGB led
+- 2 RGB (red/greeb) led
 - Pushbutton
 
-**Schema.**
 
-<img width="424" height="377" alt="image" src="https://github.com/user-attachments/assets/ced7df2b-60e7-413b-abd9-3d4165a7ad78" /><br />
+### Sensor DHT22.
+<img width="348" height="295" alt="image" src="https://github.com/user-attachments/assets/eeeafe8d-5864-4a19-a55e-c85f11f0b5e5" />
+
 Sensor DHT22's signal is connected to Rasepberry PI 5's pin 12 (GPIO 18) where it reads the temperature and humitidy from sensor.
-Operating voltage is 3.3V - 5.5V for the DHT 22 sensor. The switch button that turn sensor on/off is conected to pin 31 (GPIO6) and the indicator led
-is connected to pin 33 (GPIO 13). Display I2C interface is connected trough SDA and SCL on both I2C interface and Raspberry PI 5 device. The display's
-operating voltage is 5V. SDA ans SCL are found at pin 3 (GPIO2) and pin 5 (GPIO3) on Raspberry PI 5 device.
+Operating voltage is 3.3V - 5.5V for the DHT 22 sensor.
 
-<img width="348" height="295" alt="image" src="https://github.com/user-attachments/assets/eeeafe8d-5864-4a19-a55e-c85f11f0b5e5" /><br />
-##### Sensor DHT22 pinout.<br /><br />
+### Installation of library for the Sensor DHT22.
+
+```
+sudo pip3 install adafruit-circuitpython-dht
+```
+
+### 16x2 Display with I2C interface pinout.
 
 <img align = "center" width="320" height="180" alt="Screenshot 2026-01-22 165314" src="https://github.com/user-attachments/assets/a9b74c83-123a-4e8d-a711-09a4090bf946" />
 <img align = "center" width="320" height="180" alt="Screenshot 2026-01-22 165301" src="https://github.com/user-attachments/assets/facb06a2-db7d-4862-a273-17ec6a50d3d8" /><br />
 
-##### 16x2 Display with I2C interface pinout.<br /><br />
+The LCD display used in this project is 16x2 with I2C protocol connection. 16x2 means it contains of two rows, which both can contain of 16 characters. I2C stands for Inter-Integrated Circuit. It is a simple two-wire communication system in this case between the LCD display and Raspberry Pi5.
 
-Both the display and switch button are just additional functions, you can manage without them.
+Information about I2C protocol's function.
+- Uses two shared signal lines: SDA (Serial Data Line) to send data, and SCL (Serial Clock Line) to keep the timing synced.
+- Operates with a controller (master) device that directs traffic and a peripheral (slave) device that responds.
+- Each slave device has a unique address. The master calls this address so only the correct part listens.
+- Built-in acknowledgment bits tell the master if data arrived safely.
+
+The connection between Raspberry PI5 and the LCD display.
+
+- The LCD display's SDA pin is connected to SDA pin (GPIO2) on the Raspberry Pi5.
+- The LCD display's SCL pin is connected to SCL pin (GPIO3) on the Raspberry Pi5.
+- The LCD display's VCC pin is connected to 5V pin on the Raspberry Pi5.
+- The LCD display's GND pin is connected to ground on the Raspberry Pi5.
+
+Before you can use this LCD display, you must activate I2C.
+
+- Type sudo raspi-config and press Enter in a terminal window.
+- Use the arrow keys to select 3 Interface Options or 5 Interfacing Options (depending on your OS version) and press Enter.
+- Choose I2C and select Yes to enable the ARM I2C interface.
+- Select Ok and then Finish to exit the configuration menu.
+- Reboot your Raspberry Pi 5 using sudo reboot for changes to take effect.
+
+Installation of library for the LCD display.
+
+```
+sudo pip3 install RPLCD smbus2
+```
+### RGB Leds
+Theese RGB leds consists of red and green color
+
+One of the RGB led woks as a indicator to show if sensor data is also been stored to a mysql table.
+The other RGB led woks as a indicator to show if something is failure.
+
+- Green color = enabled.
+- Red color = disabled.
+
+The connection between Raspberry PI5 and the RGB Leds.
+The RGB Leds (red version) are connected to GPIO13 and GPIO17 on the Raspberry Pi5.
+The RGB Leds (green version) are connected to GPIO26 and GPIO27 on the Raspberry Pi5.
+
+### The installation of library for the RGB leds.
+
+#### Raspberry Pi OS (Recommended).
+```
+sudo apt update
+sudo apt install python3-gpiozero
+```
+#### Using pip (For other OS or virtual environments).
+```
+sudo pip3 install gpiozero
+
+```
+### Pushbutton
+
+The pushbutton is connected to GPIO6 on the Raspberry Pi5.
+
+### The installation of library for the Pushbuttons
+It is the same library as for the RGB leds-
+
 The code for display, switch button and indicator led functions are found in the same pyhton script, where sensor device stores it's data to MySQL table.
 
-In order to use both Sensor Device application and web version, you must create following database and table according to the directive below.
+In order to use both Sensor Device application and web version, you must create following database and tables according to the directive below.
 MySQL have been chosen as database language for this project.
 
 ```
@@ -69,6 +130,21 @@ create table sensorlog(
 id int not null auto_increment,
 temp decimal(3,1),
 hum decimal(4,1),
+datecreated datetime default (current_timestamp),
+primary key(id)
+);
+
+create table settings(
+id int not null auto_increment,
+delay int,
+numberofrows int,
+datecreated datetime default (current_timestamp),
+primary key(id)
+);
+
+create table loginfo(
+id int not null auto_increment,,
+logtext varchar(250),
 datecreated datetime default (current_timestamp),
 primary key(id)
 );
