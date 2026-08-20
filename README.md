@@ -124,9 +124,8 @@ This project contains of three mysql tables.
 - loginfo - where all the logs are stored.
 - settings - where the settings are stored.
 
-In order to use both Sensor Device application and web version, you must create following database and tables according to the directive below.
 MySQL have been chosen as database language for this project. The MySQL version used in this project is 11.8.3-MariaDB.
-
+To create the tables, follow the instructions below.
 ```
 create database sensorinfo;
 use sensorinfo;
