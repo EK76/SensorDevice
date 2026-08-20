@@ -120,7 +120,7 @@ The code for display, switch button and indicator led functions are found in the
 ### Database
 
 In order to use both Sensor Device application and web version, you must create following database and tables according to the directive below.
-MySQL have been chosen as database language for this project. The MySQL version used in this project is 11.8.6-MariaDB-0+deb13u1.
+MySQL have been chosen as database language for this project. The MySQL version used in this project is 11.8.3-MariaDB.
 
 ```
 create database sensorinfo;
@@ -151,7 +151,7 @@ primary key(id)
 
 ```
 You can also modify some settings with this project, which are stored in the settings table.
-You can modify these setting with the Visual Studio C# project. The Visual Studio C# project works only with computers that run under Windows 11 operating system.
+These setting are modified with the Visual Studio C# project. The Visual Studio C# project works only with computers that run under Windows 11 operating system.
 I have created a service which I have named sensordevice.service that when one or more of these changes are changed, it restarts the python program.
 ```
 [Unit]
@@ -170,17 +170,17 @@ Restart=on-abort
 WantedBy=multi-user.target
 ```
 
-My mysql password  /etc/controldevice/controldevice.conf file. You should always consider to hide sensative information, for example password. On way to achieve this is to use environment variables, as I have done.
+My mysql password is found in the /etc/controldevice/controldevice.conf file. You should always consider to hide sensative information, for example password. On way to achieve this is to use environment variables, as I have done.
 
 To use this sensoradevice service without sudo password from Visual Studio C# project, I created a simple bash script, camerarestart.sh
 ```
-sudo systemctl restart cameradevice
+sudo systemctl restart sensordevice
 ```
 As the next step I put this line at bottom of /etc/sudoers file with the help of sudo visudo.
 ```
 sensoruser ALL=(ALL) NOPASSWD: /home/sensoruser/Sensordevice/sensorrestart.sh
 ```
-The same procedure is also done if you wan't to shutdown the device from Visual Studio C# project, then you can create a bashscript camerashutdown.sh
+The same procedure is also done if you wan't to shutdown the device from Visual Studio C# project, then you can create a bashscript sensorshutdown.sh
 ```
 sudo shutdown now
 ```
@@ -188,7 +188,7 @@ Put this line at bottom of /etc/sudoers file with the help of sudo visudo.
 ```
 sensoruser ALL=(ALL) NOPASSWD: /home/sensorauser/Sensordevice/sensorshutdown.sh
 ```
-This project also cointain of php file (updatesql) that works like a cli application, which purpose is to delete all rows for the table cameralogs, except the newest rows according to the value $row[6] 
+This project also cointain of php file (updatesql) that works like a cli application, which purpose is to delete all rows for the table sensorlog, except the newest rows according to the value $row[2] 
 In order for updatesql can run as cli application you must put **#!/usr/bin/env php** as the first row in updatesql and make the file runnable with **chmod 777 updatesql**.
 
 Content of the updatesql file.
@@ -217,7 +217,6 @@ To use this updatesql without sudo password, put this line at bottom of /etc/sud
 ```
 sensoruser ALL=(ALL) NOPASSWD: /home/sensoruser/Sensordevice/updatesql
 ```
-
 I have also installed two external plugins trough Visual Studio NuGet Package Manager when I developed this project. 
 - MySql.Data from Oracle Corporation. <br /> 
   MySql.Data makes it easier to read from and make changes to MySQL database when using Visual Studio.
