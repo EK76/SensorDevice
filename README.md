@@ -119,6 +119,11 @@ The code for display, switch button and indicator led functions are found in the
 
 ### Database
 
+This project contains of three mysql tables.
+- sensorlog- where sensor data (temperature and humitidy) are  stored.
+- loginfo - where all the logs are stored.
+- settings - where the settings are stored.
+
 In order to use both Sensor Device application and web version, you must create following database and tables according to the directive below.
 MySQL have been chosen as database language for this project. The MySQL version used in this project is 11.8.3-MariaDB.
 
