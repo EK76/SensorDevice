@@ -150,6 +150,73 @@ primary key(id)
 );
 
 ```
+You can also modify some settings with this project, which are stored in the settings table.
+You can modify these setting with the Visual Studio C# project. The Visual Studio C# project works only with computers that run under Windows 11 operating system.
+I have created a service which I have named sensordevice.service that when one or more of these changes are changed, it restarts the python program.
+```
+[Unit]
+Description=Enable/disable sensor data storing.
+After=multi-user.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/sensordevice/sensordevice.conf
+WorkingDirectory=/home/sensoruser/Sensordevice/
+user=sensoruser
+ExecStart=/usr/bin/python3 /home/sensoruser/Sensordevice/sensor.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+```
+
+My mysql password  /etc/controldevice/controldevice.conf file. You should always consider to hide sensative information, for example password. On way to achieve this is to use environment variables, as I have done.
+
+To use this sensoradevice service without sudo password from Visual Studio C# project, I created a simple bash script, camerarestart.sh
+```
+sudo systemctl restart cameradevice
+```
+As the next step I put this line at bottom of /etc/sudoers file with the help of sudo visudo.
+```
+sensoruser ALL=(ALL) NOPASSWD: /home/sensoruser/Sensordevice/sensorrestart.sh
+```
+The same procedure is also done if you wan't to shutdown the device from Visual Studio C# project, then you can create a bashscript camerashutdown.sh
+```
+sudo shutdown now
+```
+Put this line at bottom of /etc/sudoers file with the help of sudo visudo.
+```
+sensoruser ALL=(ALL) NOPASSWD: /home/sensorauser/Sensordevice/sensorshutdown.sh
+```
+This project also cointain of php file (updatesql) that works like a cli application, which purpose is to delete all rows for the table cameralogs, except the newest rows according to the value $row[6] 
+In order for updatesql can run as cli application you must put **#!/usr/bin/env php** as the first row in updatesql and make the file runnable with **chmod 777 updatesql**.
+
+Content of the updatesql file.
+```
+#!/usr/bin/env php
+<?php
+$hostname = "localhost";
+$username = "loguser";
+$password = getenv('sqlpass');
+$db = "camerasystem";
+$dbconnect=mysqli_connect($hostname,$username,$password,$db);
+
+$query = mysqli_query($dbconnect, "select * from settings where id = 1")
+or die (mysqli_error($dbconnect));
+$row = mysqli_fetch_row($query);
+
+mysqli_query($dbconnect, "delete from cameralogs where id not in (select id from(select id from cameralogs order by id desc limit ".$row[2]." )info)")
+or die (mysqli_error($dbconnect));
+?>
+```
+You can use crontab to run this updatesql for example every night at 2 o'clock, by adding this line to rhe crontab config file.
+```
+0 2 * * * /home/sensoruser/Sensordevice/updatetable
+```
+To use this updatesql without sudo password, put this line at bottom of /etc/sudoers file with the help of sudo visudo.
+```
+sensoruser ALL=(ALL) NOPASSWD: /home/sensoruser/Sensordevice/updatesql
+```
 
 I have also installed two external plugins trough Visual Studio NuGet Package Manager when I developed this project. 
 - MySql.Data from Oracle Corporation. <br /> 
