@@ -28,10 +28,6 @@ For my php script I used the PHP version. 8.4.16.
 To the show result as diagram I used [Google Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery).
 In my case I named my Raspberry PI 5 to sensordevice. It means in this case I can use the webbrowser version with this url, *http://sensordevice*.
 
-I have also added 16x2 display with I2C interface and switch button with "indicator" led to the deivce. 
-The display show date and time and data from sensor regularly after same delay. The switch button's purpose is to turn off the sensor if you only wan't look at stored sensor data stored
-and not store any data. 
-
 **List over the hardware for this project.**
 - Raspberry Pi 5
 - DHT22 sensor
@@ -57,7 +53,7 @@ sudo pip3 install adafruit-circuitpython-dht
 <img align = "center" width="320" height="180" alt="Screenshot 2026-01-22 165314" src="https://github.com/user-attachments/assets/a9b74c83-123a-4e8d-a711-09a4090bf946" />
 <img align = "center" width="320" height="180" alt="Screenshot 2026-01-22 165301" src="https://github.com/user-attachments/assets/facb06a2-db7d-4862-a273-17ec6a50d3d8" /><br />
 
-The LCD display used in this project is 16x2 with I2C protocol connection. 16x2 means it contains of two rows, which both can contain of 16 characters. I2C stands for Inter-Integrated Circuit. It is a simple two-wire communication system in this case between the LCD display and Raspberry Pi5.
+The LCD display used in this project uses 16x2 with I2C protocol connection. 16x2 means it contains of two rows, which both can contain of 16 characters. I2C stands for Inter-Integrated Circuit. It is a simple two-wire communication system in this case between the LCD display and Raspberry Pi5.
 
 Information about I2C protocol's function.
 - Uses two shared signal lines: SDA (Serial Data Line) to send data, and SCL (Serial Clock Line) to keep the timing synced.
@@ -86,17 +82,18 @@ Installation of library for the LCD display.
 sudo pip3 install RPLCD smbus2
 ```
 ### RGB Leds
-Theese RGB leds consists of red and green color
+These RGB leds consists of red and green color
 
 One of the RGB led woks as a indicator to show if sensor data is also been stored to a mysql table.
 The other RGB led woks as a indicator to show if something is failure.
 
-- Green color = enabled.
-- Red color = disabled.
+- Green color = enabled / working.
+- Red color = disabled / failure.
 
 The connection between Raspberry PI5 and the RGB Leds.
-The RGB Leds (red version) are connected to GPIO13 and GPIO17 on the Raspberry Pi5.
-The RGB Leds (green version) are connected to GPIO26 and GPIO27 on the Raspberry Pi5.
+
+- The RGB Leds (red version) are connected to GPIO13 and GPIO17 on the Raspberry Pi5.
+- The RGB Leds (green version) are connected to GPIO26 and GPIO27 on the Raspberry Pi5.
 
 ### The installation of library for the RGB leds.
 
@@ -112,15 +109,18 @@ sudo pip3 install gpiozero
 ```
 ### Pushbutton
 
+Pushbutton's function is to turn on / off depending on whether or not you want to save sensor data to the table.
 The pushbutton is connected to GPIO6 on the Raspberry Pi5.
 
 ### The installation of library for the Pushbuttons
-It is the same library as for the RGB leds-
+It is the same library as for the RGB leds.
 
 The code for display, switch button and indicator led functions are found in the same pyhton script, where sensor device stores it's data to MySQL table.
 
+### Database
+
 In order to use both Sensor Device application and web version, you must create following database and tables according to the directive below.
-MySQL have been chosen as database language for this project.
+MySQL have been chosen as database language for this project. The MySQL version used in this project is 11.8.6-MariaDB-0+deb13u1.
 
 ```
 create database sensorinfo;
@@ -150,7 +150,6 @@ primary key(id)
 );
 
 ```
-The MySQL version 11.8.6-MariaDB-0+deb13u1 acts as my database server for this project.
 
 I have also installed two external plugins trough Visual Studio NuGet Package Manager when I developed this project. 
 - MySql.Data from Oracle Corporation. <br /> 
