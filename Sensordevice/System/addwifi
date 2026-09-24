@@ -1,0 +1,9 @@
+#!/bin/bash
+clear
+echo "Wifi configuration."
+echo "Type your SSID: "
+read ssid
+echo "Type your SSID key"
+read pswd
+sudo nmcli dev wifi connect $ssid password $pswd
+echo "Configuration done!"

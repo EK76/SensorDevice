@@ -1,0 +1,100 @@
+body {
+  background-color: rgb(255, 255, 255);
+}
+
+
+table.datarows {
+  border-collapse: collapse;
+  border-bottom: 1px solid #ddd;
+  width: 15%;
+  height: 2%;
+}
+
+table.buttonvalue {
+  width: 10%;
+  height: 2%;
+  border-collapse: collapse;
+}
+
+table.datarows2 {
+ text-align: center;
+  background-color: #e0db8f;
+  padding: 0px;
+}
+
+.maintext {
+  color: rgb(0, 0, 0);
+  font-size: 36px;
+  text-align: center;
+}
+
+.maintext2 {
+  color: rgb(0, 0, 0);
+  font-size: 36px;
+  text-align: left;
+}
+
+.subtext1 {
+  color: black;
+  font-size: 22px;
+  text-align: center;
+}
+
+.subtext2 {
+  color: rgb(17, 156, 126);
+  font-size: 22px;
+  text-align: center;
+}
+
+.subtext3 {
+  color:rgb(0, 0, 0);
+  font-size: 22px;
+  text-align: left;
+}
+
+.subtext4 {
+  color: rgb(131, 9, 9);
+  font-size: 22px;
+  text-align: left;
+}
+
+.errorcode1 {
+  color: rgb(134, 23, 23);
+  font-size: 26px;
+  text-align: center;
+}
+
+table.chartdata {
+   border-collapse: collapse;
+  border-width: none;
+  padding: 0%;
+}
+
+hr.index {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: 20%;
+  margin-right: 0%;
+  border-style: inset;
+  border-width: 4px;
+  width: 75%;
+}
+
+form.files {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: 45%;
+  margin-right: 50%;
+  width: 75%;
+}
+
+.buttondownload {
+  background-color: rgb(0, 0, 0);
+  border: none;
+  color: white;
+  width: 10%;
+  height: 2%;
+  cursor: pointer;
+   border-collapse: collapse;
+}
