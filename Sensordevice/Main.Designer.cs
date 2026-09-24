@@ -83,7 +83,7 @@
             buttonSetDate = new Button();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
-             SuspendLayout();
+            SuspendLayout();
             // 
             // menuStrip1
             // 
@@ -193,27 +193,27 @@
             // restoreDatabaseToolStripMenuItem
             // 
             restoreDatabaseToolStripMenuItem.Name = "restoreDatabaseToolStripMenuItem";
-            restoreDatabaseToolStripMenuItem.Size = new Size(180, 22);
+            restoreDatabaseToolStripMenuItem.Size = new Size(166, 22);
             restoreDatabaseToolStripMenuItem.Text = "Restore Database";
             restoreDatabaseToolStripMenuItem.Click += restoreDatabaseToolStripMenuItem_Click_1;
             // 
             // backupDatabaseToolStripMenuItem
             // 
             backupDatabaseToolStripMenuItem.Name = "backupDatabaseToolStripMenuItem";
-            backupDatabaseToolStripMenuItem.Size = new Size(180, 22);
+            backupDatabaseToolStripMenuItem.Size = new Size(166, 22);
             backupDatabaseToolStripMenuItem.Text = "Backup Database";
             backupDatabaseToolStripMenuItem.Click += backupDatabaseToolStripMenuItem_Click_1;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(163, 6);
             // 
             // setDelayToolStripMenuItem
             // 
             setDelayToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { minutesToolStripMenuItem, hourToolStripMenuItem, hoursToolStripMenuItem });
             setDelayToolStripMenuItem.Name = "setDelayToolStripMenuItem";
-            setDelayToolStripMenuItem.Size = new Size(180, 22);
+            setDelayToolStripMenuItem.Size = new Size(166, 22);
             setDelayToolStripMenuItem.Text = "Set Delay Time";
             // 
             // minutesToolStripMenuItem
@@ -241,7 +241,7 @@
             // 
             logNumberToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { logNumberToolStripComboBox });
             logNumberToolStripMenuItem.Name = "logNumberToolStripMenuItem";
-            logNumberToolStripMenuItem.Size = new Size(180, 22);
+            logNumberToolStripMenuItem.Size = new Size(166, 22);
             logNumberToolStripMenuItem.Text = "Set Log Number";
             // 
             // logNumberToolStripComboBox
@@ -254,14 +254,14 @@
             // clearDatabaseToolStripMenuItem
             // 
             clearDatabaseToolStripMenuItem.Name = "clearDatabaseToolStripMenuItem";
-            clearDatabaseToolStripMenuItem.Size = new Size(180, 22);
+            clearDatabaseToolStripMenuItem.Size = new Size(166, 22);
             clearDatabaseToolStripMenuItem.Text = "ClearTable";
             clearDatabaseToolStripMenuItem.Click += clearDatabaseToolStripMenuItem_Click_1;
             // 
             // shutdownDeviceToolStripMenuItem
             // 
             shutdownDeviceToolStripMenuItem.Name = "shutdownDeviceToolStripMenuItem";
-            shutdownDeviceToolStripMenuItem.Size = new Size(180, 22);
+            shutdownDeviceToolStripMenuItem.Size = new Size(166, 22);
             shutdownDeviceToolStripMenuItem.Text = "Shutdown Device";
             shutdownDeviceToolStripMenuItem.Click += shutdownDeviceToolStripMenuItem_Click;
             // 
@@ -269,7 +269,7 @@
             // 
             controlDeviceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { controlDeviceToolStripMenuItem2, restartDeviceToolStripMenuItem });
             controlDeviceToolStripMenuItem.Name = "controlDeviceToolStripMenuItem";
-            controlDeviceToolStripMenuItem.Size = new Size(180, 22);
+            controlDeviceToolStripMenuItem.Size = new Size(166, 22);
             controlDeviceToolStripMenuItem.Text = "Control Device";
             // 
             // controlDeviceToolStripMenuItem2
