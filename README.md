@@ -34,8 +34,13 @@ In my case I named my Raspberry PI 5 to sensordevice. It means in this case I ca
 - 16x2 display with I2C interface
 - 1 RGB (red/green) led
 
+### Raspberry Pi 5
+<img width="851" height="478" alt="raspberrypi" src="https://github.com/user-attachments/assets/25529bb9-281e-4447-8c56-1aaf83976acd" />
+
+An overview of the Rasperry PI 5 GPIO pins.
+
 ### Sensor DHT22.
-<img width="348" height="295" alt="image" src="https://github.com/user-attachments/assets/eeeafe8d-5864-4a19-a55e-c85f11f0b5e5" />
+<img width="568" height="364" alt="dht22" src="https://github.com/user-attachments/assets/909912d9-66f4-4da3-a7a7-8a44d279c72f" />
 
 Sensor DHT22's signal is connected to Rasepberry PI 5's pin 12 (GPIO 18) where it reads the temperature and humitidy from sensor.
 Operating voltage is 3.3V - 5.5V for the DHT 22 sensor.
@@ -47,7 +52,7 @@ sudo pip3 install adafruit-circuitpython-dht
 ```
 ### 1.3" oled display.
 
-<img width="398" height="363" alt="oled" src="https://github.com/user-attachments/assets/0a5e3141-d3e0-46ac-bc26-8675c3800d04" />
+<img width="263" height="285" alt="oled" src="https://github.com/user-attachments/assets/8c84f64e-cf72-41dd-84b8-30bb26221663" />
 
 This OLED (organic light-emitting diode) display module combines bright white and deep blue colors to provide a sharp 128×64 pixel resolution. 
 Its 1.3-inch display is ideal for a wide range of applications, providing a clear and sharp image even in small devices. 
@@ -102,7 +107,6 @@ sudo apt install python3-gpiozero
 #### Using pip (For other OS or virtual environments).
 ```
 sudo pip3 install gpiozero
-
 ```
 The code for display and indicator led functions are found in the same pyhton script, where sensor device stores it's data to MySQL table.
 
@@ -143,7 +147,6 @@ logtext varchar(250),
 datecreated datetime default (current_timestamp),
 primary key(id)
 );
-
 ```
 You can also modify some settings with this project, which are stored in the settings table.
 These setting are modified with the Visual Studio C# project. The Visual Studio C# project works only with computers that run under Windows 11 operating system.
@@ -170,9 +173,6 @@ To use this sensoradevice service without typing sudo password from Visual Studi
 ```
 %sudo   ALL=(ALL:ALL) ALL
 ```
-
-
-
 I have also installed two external plugins trough Visual Studio NuGet Package Manager when I developed this project. 
 - MySql.Data from Oracle Corporation. <br /> 
   MySql.Data makes it easier to read from and make changes to MySQL database when using Visual Studio.
@@ -180,10 +180,10 @@ I have also installed two external plugins trough Visual Studio NuGet Package Ma
   Backup and restore databases and tables from MySQL.
 
 **Two pictures of the application.**
-
-<img width="500" height="628" alt="pic1" src="https://github.com/user-attachments/assets/8b492c36-0cc9-4893-9660-aa03f6a0c0c9" /><br /> 
-<img width="1400" height="563" alt="pic2" src="https://github.com/user-attachments/assets/4393a6bc-0412-4f3e-9697-11fc0eb0d1ee" />
+<img width="2880" height="1132" alt="sensorproject2" src="https://github.com/user-attachments/assets/332e3cc5-61dd-4804-81ce-cfdb99f49456" />
+<img width="901" height="917" alt="sensorproject3" src="https://github.com/user-attachments/assets/e39351ef-e9ae-4247-97e7-cb1f537d3b39" />
 
 **Picture for web solution.**
 
-<img width="1688" height="1173" alt="Screenshot 2026-01-22 170427" src="https://github.com/user-attachments/assets/78193762-318c-47c7-bcf5-9862c565e045" />
+<img width="539" height="1126" alt="sensorproject1" src="https://github.com/user-attachments/assets/274db9e7-38f0-4833-9d62-57f660a808b0" />
+
