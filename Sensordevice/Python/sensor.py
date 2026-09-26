@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.SPI as SPI
-from distro import info
+#from distro import info
 from gpiozero import LED
 import mysql.connector, sys, Adafruit_DHT, datetime, time
 from mysql.connector import Error
@@ -11,8 +11,8 @@ import RPi.GPIO as GPIO
 import board
 import adafruit_dht
 import atexit
-import subprocess
-import signal
+#import subprocess
+#import signal
 import os
 from luma.core.interface.serial import i2c
 from luma.core.render import canvas
@@ -39,13 +39,20 @@ def addmysqlrecord(temp, hum):
    cursor.close()  
 
 def addmysqlrecord2(info):
-      cursor = connection.cursor()
-      query = "insert into loginfo(logtext) values (%s)"
-      cursor.execute(query, [info])
-      connection.commit()   
-      cursor.close()
-      print("Record inserted successfully into table weatherdata with info: )", (info))
+   cursor = connection.cursor()
+   query = "insert into loginfo(logtext) values (%s)"
+   cursor.execute(query, [info])
+   connection.commit()   
+   print("Record inserted successfully into table weatherdata with info: ", (info))
+   cursor.close()
 
+def deletemysqlrecords(limit):
+   cursor = connection.cursor()
+   query = "delete from loginfo where id not in (select id from(select id from loginfo order by id desc limit " + str(limit) + ")info);"
+   cursor.execute(query)
+   connection.commit()   
+   cursor.close()
+    
 def oledinfo(row1, row2, row3, row4):
   with canvas(device) as draw:
     draw.rectangle(device.bounding_box, outline="white", fill="black")
@@ -79,59 +86,79 @@ try:
       cursor.close()
       print("You're connected to database: ", record)
       sleep(2)
-
       addmysqlrecord2("Sensor device started.")
+      
       row1 = "Sensor device."
       row2 = "version 3.24."
       row3 = "(C) Ken Ekholm"
       row4 = "Device started."
       oledinfo(row1, row2, row3, row4)
       sleep(5)
-
-      query = "select delay from settings where id=1"
+      cursor = connection.cursor()
+      query = "select delay, numberofrows from settings where id=1"
       cursor = connection.cursor()
       cursor.execute(query)
       row = cursor.fetchone()
       delay = row[0]
+      limit = row[1]
       connection.commit()
+      cursor.close()
+      deletemysqlrecords(limit)
+
+      checkSensor = True
       allow = True
       counter = 0 
-      print("Delay: ", delay)
+      counter2 = 0
+      counter3 = 0
+      print("Delay: ", limit)
       while True:
-         print(f"Counter: {counter}")
-         now = datetime.datetime.now()
-         showdate = now.strftime("%d.%m.%Y")
-         showtime = now.strftime("%H:%M")
-         if counter == delay or allow == True:
-            try:   
+         if checkSensor == True:
+           print(f"Counter: {counter}")
+           now = datetime.datetime.now()
+           showdate = now.strftime("%d.%m.%Y")
+           showtime = now.strftime("%H:%M")
+         
+           if counter2 == 60 or allow == True:
                greenled.on()
                redled.off()
-               temperature = sensor.temperature
-               humidity = sensor.humidity
-               temperature=(round(temperature,2))
-               humidity=(round(humidity,4))
-               row1 = showdate + "  " + showtime
-               row2 = "Temp: "+str(temperature)+"C"  
-               row3 = "Humidity: "+str(humidity)+"%"
-               row4 = ""
-               print("Loop")
-               oledinfo(row1, row2, row3, row4)
-               addmysqlrecord(temperature, humidity)
-
-            except RuntimeError as error:
+               try:
+                  temperature = sensor.temperature
+                  humidity = sensor.humidity
+                  temperature=(round(temperature,2))
+                  humidity=(round(humidity,4))
+                  row1 = showdate + "  " + showtime
+                  row2 = "Temp: "+str(temperature)+"C"  
+                  row3 = "Humidity: "+str(humidity)+"%"
+                  row4 = ""
+                  print(f"Loop (60) {counter2}")
+                  print(f"Delay {counter}") 
+                  oledinfo(row1, row2, row3, row4)
+                  if counter == delay:
+                     addmysqlrecord(temperature, humidity)
+                     counter = 0
+                  counter2 = 0 
+               except RuntimeError as error:    
+                  checkSensor = False          
+         else:
+             if counter3 == 0:
                greenled.off()
                redled.on()
                addmysqlrecord2("Sensor malfunction.")
                row1 = showdate + "  " + showtime
-               row2 = "Sensor device"  
+               row2 = "Sensor device"
                row3 = "mailfunction"
                row4 = ""
                oledinfo(row1, row2, row3, row4)
                print("Sensor malfunction.")
-            counter = 0 
-            allow = False
+               counter3 =  1
+               deletemysqlrecords(limit)
+             print("Test!")
+
+         allow = False
          counter+=1  
+         counter2+=1
          sleep(1)
+         
          atexit.register(disabledevice)
 except mysql.connector.Error as error:
    print("Failed to insert record into table {}".format(error))

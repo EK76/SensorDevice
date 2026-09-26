@@ -32,7 +32,7 @@ namespace Sensordevice
         public static List<string> listDate = new List<string>();
         public static bool confirmed;
         string newStartDate, newEndDate, passwordString, currentDate, setDate;
-        string showStartDate, showEndDate;
+        string showStartDate, showEndDate, firstDate;
         DateTime startDate, endDate, setDate2;
         int countItems, counterItems, showNumbers, number, delayValue, rowsValue;
         bool checkFile = true, setDevice = true, checkOnce;
@@ -394,7 +394,17 @@ namespace Sensordevice
             }
             conn.Close();
             logNumberToolStripComboBox.Text = rowsValue.ToString();
+            
+            conn.Open();
+            checkString = "select datecreated from sensorlog limit 1";
+            MySqlCommand command2= new MySqlCommand(checkString, conn);
+            MySqlDataReader reader2 = command2.ExecuteReader();
+            reader2.Read();
+            firstDate = reader2.GetDateTime("datecreated").ToString("dd-MM-yyyy");
+            dateTimePickerStartDate.MinDate = DateTime.ParseExact(firstDate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            conn.Close();
         }
+
 
 
         private void listViewData_SelectedIndexChanged(object sender, EventArgs e)
